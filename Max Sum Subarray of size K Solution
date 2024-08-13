@@ -1,0 +1,28 @@
+class Solution {
+    static long maximumSumSubarray(int K, ArrayList<Integer> Arr, int N) {
+        // If the array is empty or the window size K is larger than the array
+        if (N == 0 || K > N) {
+            return 0;
+        }
+        
+        long sum = 0;
+        long mx = 0;
+        int start = 0;
+        
+        for (int end = 0; end < N; end++) {
+            sum += Arr.get(end);
+            
+            // When we hit the window size K
+            if (end - start + 1 == K) {
+                // Update the maximum sum
+                mx = Math.max(mx, sum);
+                
+                // Slide the window: Remove the start element from the sum and move start forward
+                sum -= Arr.get(start);
+                start++;
+            }
+        }
+        
+        return mx;
+    }
+}
