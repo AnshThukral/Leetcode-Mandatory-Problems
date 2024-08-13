@@ -1,0 +1,27 @@
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int[] count = new int[26];  // Array to keep track of character frequencies in the current window
+        int maxCount = 0;  // Max frequency of any character in the current window
+        int maxLength = 0;
+        int left = 0;
+        
+        for (int right = 0; right < s.length(); right++) {
+            // Update the count for the current character
+            count[s.charAt(right) - 'A']++;
+            // Update maxCount to the maximum frequency of a single character in the window
+            maxCount = Math.max(maxCount, count[s.charAt(right) - 'A']);
+            
+            // Current window size is right - left + 1
+            // If the remaining characters in the window that are not the most frequent exceed k, shrink the window
+            if ((right - left + 1) - maxCount > k) {
+                count[s.charAt(left) - 'A']--;
+                left++;
+            }
+            
+            // Update maxLength with the size of the current valid window
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;
+    }
+}
