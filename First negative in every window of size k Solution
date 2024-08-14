@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Compute {
+
+    public long[] printFirstNegativeInteger(long A[], int N, int K) {
+        List<Long> result = new ArrayList<>();
+        List<Integer> negativesIndex = new ArrayList<>();
+
+        int start = 0;
+
+        for (int end = 0; end < N; end++) {
+            // Add current element's index if it's negative
+            if (A[end] < 0) {
+                negativesIndex.add(end);
+            }
+
+            // Check if the window size is equal to K
+            if (end - start + 1 == K) {
+                // If there are negative numbers, add the first one to the result
+                if (!negativesIndex.isEmpty() && negativesIndex.get(0) >= start) {
+                    result.add(A[negativesIndex.get(0)]);
+                } else {
+                    // No negatives in the window
+                    result.add(0L);
+                }
+
+                // Slide the window forward
+                start++;
+
+                // Remove indices that are out of the current window
+                if (!negativesIndex.isEmpty() && negativesIndex.get(0) < start) {
+                    negativesIndex.remove(0);
+                }
+            }
+        }
+
+        // Convert result list to an array and return it
+        long[] resultArray = new long[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            resultArray[i] = result.get(i);
+        }
+        return resultArray;
+    }
+}
