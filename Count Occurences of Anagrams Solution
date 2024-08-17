@@ -1,0 +1,49 @@
+class Solution {
+
+    int search(String pat, String txt) {
+        // code here
+        int k=pat.length();
+        int ans=0;
+        
+        Map<Character,Integer> mp = new HashMap<>();
+        
+        for(char ch: pat.toCharArray()){
+            mp.put(ch,mp.getOrDefault(ch,0)+1);
+        }
+        
+        int count=mp.size();
+        int start=0;
+        
+        for(int end=0;end<txt.length();end++){
+            char a=txt.charAt(end);
+            
+            if(mp.containsKey(a)){
+                mp.put(a,mp.get(a)-1);
+                if(mp.get(a)==0){
+                    count--;
+                }
+            }
+            
+            if(end-start+1 == k){
+                if(count==0){
+                    ans++;
+                }
+                
+                char startChar=txt.charAt(start);
+                
+                if(mp.containsKey(startChar)){
+                    if(mp.get(startChar)==0){
+                        count++;
+                    }
+                    mp.put(startChar,mp.get(startChar)+1);
+                }
+                
+                start++;
+            }
+            
+        
+        }
+        
+        return ans;
+    }
+}
