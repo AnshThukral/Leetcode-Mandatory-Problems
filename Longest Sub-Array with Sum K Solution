@@ -1,0 +1,31 @@
+import java.util.HashMap;
+
+class Solution {
+    // Function to find the length of the longest sub-array with sum equal to K
+    public static int lenOfLongSubarr(int A[], int N, int K) {
+        HashMap<Integer, Integer> sumMap = new HashMap<>();
+        int sum = 0;       // Initialize cumulative sum
+        int maxLen = 0;    // Initialize the maximum length of sub-array
+        
+        // Initialize the map with 0 sum at index -1 to handle cases where the sub-array starts from index 0
+        sumMap.put(0, -1);
+
+        for (int i = 0; i < N; i++) {
+            sum += A[i];  // Update the cumulative sum
+
+            // Check if (sum - K) exists in the map
+            if (sumMap.containsKey(sum - K)) {
+                // Calculate the length of the sub-array
+                int length = i - sumMap.get(sum - K);
+                maxLen = Math.max(maxLen, length);
+            }
+
+            // Only put the cumulative sum in the map if it is not already present
+            if (!sumMap.containsKey(sum)) {
+                sumMap.put(sum, i);
+            }
+        }
+
+        return maxLen;
+    }
+}
