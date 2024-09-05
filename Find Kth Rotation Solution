@@ -1,0 +1,30 @@
+class Solution {
+    public int findKRotation(List<Integer> arr) {
+        // Code here
+        int start=0;
+        int N=arr.size();
+        
+        int end=N-1;
+        
+        while(start<=end){
+            
+            if(arr.get(start) <= arr.get(end)){
+                return start;
+            }
+            int mid=start + (end-start)/2;
+            
+            int next=(mid+1)%N;
+            int prev=(mid-1+N)%N;
+            
+            if(arr.get(mid)<arr.get(prev) && arr.get(mid)<arr.get(next)){
+                return mid;
+            }
+            if(arr.get(mid)>=arr.get(start)){
+                start=mid+1;
+            }else{
+                end=mid-1;
+            }
+        }
+        return 0;
+    }
+}
