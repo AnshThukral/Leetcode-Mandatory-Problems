@@ -1,0 +1,37 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length - 1;
+        
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            
+            // If the target is found
+            if (nums[mid] == target) {
+                return mid;
+            }
+            
+            // Check if the left half is sorted
+            if (nums[start] <= nums[mid]) {
+                // Check if the target is within the sorted left half
+                if (nums[start] <= target && target < nums[mid]) {
+                    end = mid - 1;
+                } else {
+                    start = mid + 1;
+                }
+            }
+            // Otherwise, the right half is sorted
+            else {
+                // Check if the target is within the sorted right half
+                if (nums[mid] < target && target <= nums[end]) {
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+        }
+        
+        // If the target is not found
+        return -1;
+    }
+}
