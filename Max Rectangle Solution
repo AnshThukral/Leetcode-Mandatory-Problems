@@ -1,0 +1,104 @@
+class Solution {
+    public int maxArea(int M[][], int n, int m) {
+        // add code here.
+        int[] arr=new int[m];
+        
+        for(int j=0;j<m;j++){
+            arr[j]=M[0][j];
+        }
+        int mx= MAH(arr);
+        
+        for(int i=1;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(M[i][j]==0){
+                    arr[j]=0;
+                }else{
+                    arr[j]=arr[j]+M[i][j];
+                }
+            }
+            mx=Math.max(MAH(arr),mx);
+        }
+        return mx;
+    }
+    
+    static class Pair{
+        int val,index;
+        Pair(int val, int index){
+            this.val=val;
+            this.index=index;
+        }
+    }
+    
+    public int MAH(int[] arr){
+        int n = arr.length;
+        int[] width= new int[n];
+        int[] right= new int[n];
+        int[] left=new int[n];
+        int[] area=new int[n];
+        int max=-1;
+        
+        right=Nsr(arr,n);
+        left=Nsl(arr,n);
+        
+        for(int i=0;i<n;i++){
+            width[i]=right[i]-left[i]-1;
+            area[i]=width[i] * arr[i];
+            max=Math.max(max,area[i]);
+        }
+        return max;
+    }
+    
+    public int[] Nsr(int[] arr, int n){
+        int pseudoIndex = n;
+        Stack<Pair> st1=new Stack<>();
+        int[] r1=new int[n];
+        for(int i=n-1;i>=0;i--){
+            if(st1.isEmpty()){
+                r1[i]=pseudoIndex;
+            }
+            else if(!st1.isEmpty() && st1.peek().val<arr[i]){
+                r1[i]=st1.peek().index;
+            }
+            else{
+                while(!st1.isEmpty() && st1.peek().val>=arr[i]){
+                    st1.pop();
+                }
+                if(st1.isEmpty()){
+                    r1[i]=pseudoIndex;
+                }
+                else{
+                    r1[i]=st1.peek().index;
+                }
+            }
+            st1.push(new Pair(arr[i],i));
+        }
+        return r1;
+    }
+    
+    public int[] Nsl(int[] arr, int n){
+        int pseudoIndex = -1;
+        Stack<Pair> st2=new Stack<>();
+        int[] l1=new int[n];
+        for(int i=0;i<n;i++){
+            if(st2.isEmpty()){
+                l1[i]=pseudoIndex;
+            }
+            else if(!st2.isEmpty() && st2.peek().val<arr[i]){
+                l1[i]=st2.peek().index;
+            }
+            else{
+                while(!st2.isEmpty() && st2.peek().val>=arr[i]){
+                    st2.pop();
+                }
+                if(st2.isEmpty()){
+                    l1[i]=pseudoIndex;
+                }
+                else{
+                    l1[i]=st2.peek().index;
+                }
+            }
+            st2.push(new Pair(arr[i],i));
+        }
+        return l1;
+    }
+}
