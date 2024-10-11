@@ -1,0 +1,28 @@
+class Solution {
+    public List<String> find_permutation(String S) {
+        // Code here
+        List<String> l1 = new ArrayList<>();
+        permute(S,"",l1);
+        Collections.sort(l1);
+        return l1;
+    }
+    
+    void permute(String ip,String op,List<String> l1){
+        if(ip.length()==0){
+            l1.add(op);
+            return;
+        }
+        
+        HashMap<Character,Integer> m1=new HashMap<>();
+        
+        for(int i=0;i<ip.length();i++){
+            char ch=ip.charAt(i);
+            if(!m1.containsKey(ch)){
+                m1.put(ch,1);
+                String newIp=ip.substring(0,i) + ip.substring(i+1);
+                String newOp=op + ch;
+                permute(newIp,newOp,l1);
+            }
+        }
+    }
+}
