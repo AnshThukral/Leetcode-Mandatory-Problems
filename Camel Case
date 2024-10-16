@@ -1,0 +1,50 @@
+import java.util.Scanner;
+
+class HelloWorld {
+    public static void main(String[] args) {
+       Scanner sc= new Scanner(System.in);
+       String s = sc.nextLine();
+       
+       StringBuilder word = new StringBuilder();
+       
+       boolean isFirstWord=true;
+       
+       for(char c: s.toCharArray()){
+           if(Character.isUpperCase(c) && word.length()>0){
+               if(isFirstWord){
+                   System.out.println(word.toString().toUpperCase());
+                   isFirstWord=false;
+               }else{
+                   invert(word.toString());
+               }
+               word.setLength(0);
+           }
+           
+           word.append(c);
+       }
+       
+       if(word.length()>0){
+           if(isFirstWord){
+               System.out.println(word.toString().toUpperCase());
+           }else{
+               invert(word.toString());
+           }
+       }
+       
+    }
+    
+    static void invert(String input){
+        StringBuilder in = new StringBuilder();
+        for(char c: input.toCharArray()){
+            if(Character.isUpperCase(c)){
+                in.append(Character.toLowerCase(c));
+            }else{
+                in.append(Character.toUpperCase(c));
+            }
+        }
+        
+        System.out.println(in.toString());
+    }
+}
+
+
