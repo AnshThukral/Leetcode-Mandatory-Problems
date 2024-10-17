@@ -1,0 +1,36 @@
+import java.util.*;
+
+class HelloWorld {
+    static int binaryToDecimal(int n){
+        int s=0;
+        int power=0;
+        while(n>0){
+            int c=n%10;
+            if(c==1){
+                int calc= ((int)Math.pow(2,power)) * c;
+                s=s+calc;
+            }
+            power++;
+            n=n/10;
+        }
+        return s;
+    }
+    
+    static String decimalToBinary(int str){
+        return Integer.toBinaryString(str);
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String a=sc.nextLine();
+        String b=sc.nextLine();
+        
+        int conA = binaryToDecimal(Integer.parseInt(a));
+        int conB = binaryToDecimal(Integer.parseInt(b));
+        
+        int sum = conA + conB;
+        
+        String ans= decimalToBinary(sum);
+        
+        System.out.println(ans);
+    }
+}
