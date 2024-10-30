@@ -1,0 +1,64 @@
+public class Solution {
+    public static int[] alternateNumbers(int []a) {
+        // Write your code here.
+        int n=a.length;
+
+        int[] pArr=new int[n/2];
+        int[] nArr=new int[n/2];
+
+        int p=0;
+        int ni=0;
+
+        for(int i=0;i<n;i++){
+            if(a[i]>0){
+                pArr[p]=a[i];
+                p++;
+            }else{
+                nArr[ni]=a[i];
+                ni++;
+            }
+        }
+        int[] ans=new int[n];
+        int ind=0;
+        for(int i=0;i<n/2;i++){
+            ans[ind]=pArr[i];
+            ind++;
+            ans[ind]=nArr[i];
+            ind++;
+        }
+        return ans;
+    }
+}
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static int[] alternateNumbers(int[] a) {
+        int n = a.length;
+
+        List<Integer> positives = new ArrayList<>();
+        List<Integer> negatives = new ArrayList<>();
+
+        // Separate positive and negative numbers
+        for (int num : a) {
+            if (num > 0) {
+                positives.add(num);
+            } else {
+                negatives.add(num);
+            }
+        }
+
+        int[] ans = new int[n];
+        int index = 0;
+
+        // Alternate between positives and negatives
+        for (int i = 0; i < n / 2; i++) {
+            ans[index++] = positives.get(i);
+            ans[index++] = negatives.get(i);
+        }
+
+        return ans;
+    }
+}
