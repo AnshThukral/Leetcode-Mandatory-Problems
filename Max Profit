@@ -1,0 +1,36 @@
+public class TylerTravelPlan {
+
+    public static int[] findTravelPlan(int N, int S, int M, int[] A) {
+        int numCountries = N / S;
+        int minIndex = 0;
+        
+        // Step 1: Find the starting state with the lowest rating
+        for (int i = 0; i < numCountries; i++) {
+            if (A[i * S] < A[minIndex]) {
+                minIndex = i * S;
+            } else if (A[i * S] == A[minIndex]) {
+                if (A[i * S + 1] < A[minIndex + 1]) {
+                    minIndex = i * S;
+                }
+            }
+        }
+
+        // Step 2: Calculate which country and state Tyler will be in during month M
+        int targetIndex = (minIndex + M - 1) % N;
+        int targetCountry = targetIndex / S + 1;
+        int targetStateRating = A[targetIndex];
+
+        return new int[]{targetCountry, targetStateRating};
+    }
+
+    public static void main(String[] args) {
+        int N = 6; // Number of states
+        int S = 3; // Number of states per country
+        int M = 6; // Month number
+        int[] A = {2, 1, 9, 3, 1, 4}; // Rating list
+
+        int[] result = findTravelPlan(N, S, M, A);
+        System.out.println("Country: " + result[0]);
+        System.out.println("State Rating: " + result[1]);
+    }
+}
