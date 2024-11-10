@@ -1,0 +1,24 @@
+class Solution {
+    // Function to return max value that can be put in knapsack of capacity.
+    static int knapSack(int capacity, int val[], int wt[]) {
+        // code here
+        int n = wt.length;
+        int ans = fun(capacity ,  val ,  wt ,  n);
+        return ans;
+    }
+    
+    static int fun(int Weight, int val[], int wt[], int n){
+        if(n==0 || Weight==0){
+            return 0;
+        }
+        
+        if(wt[n-1] <= Weight){
+            
+            return Math.max( (val[n-1] + fun(Weight-wt[n-1], val, wt, n-1) ),
+                   (fun( Weight,  val,  wt,  n-1))
+            );
+        }else{
+            return fun( Weight,  val, wt, n-1);
+        }
+    }
+}
