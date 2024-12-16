@@ -1,0 +1,47 @@
+class Solution {
+    int[][] t = new int[2001][2001];
+
+    public boolean isPalindrome(String s, int i, int j) {
+        int st = i;
+        int e = j;
+        while (st < e) {
+            if (s.charAt(st) != s.charAt(e)) {
+                return false;
+            }
+            st++;
+            e--;
+        }
+        return true;
+    }
+
+    public int solve(String s, int i, int j) {
+        if (i >= j || isPalindrome(s, i, j)) {
+            return 0;
+        }
+
+        if (t[i][j] != -1) {
+            return t[i][j];
+        }
+
+        int ans = Integer.MAX_VALUE;
+        for (int k = i; k <= j - 1; k++) {
+            if (isPalindrome(s, k+1, j)) {
+                int temp = 1 + solve(s, i, k);
+                ans = Math.min(ans, temp);
+            }
+        }
+
+        return t[i][j] = ans;
+    }
+
+    public int minCut(String s) {
+        int n = s.length();
+        // Initialize memoization table with -1
+        for (int i = 0; i < 2001; i++) {
+            for (int j = 0; j < 2001; j++) {
+                t[i][j] = -1;
+            }
+        }
+        return solve(s, 0, n - 1);
+    }
+}
