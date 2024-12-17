@@ -1,0 +1,70 @@
+class Solution {
+    static HashMap<String, Integer> mp = new HashMap<>();
+    static final int MOD = 1003;
+
+    static int countWays(int n, String s) {
+        // Clear the memoization map for fresh computation
+        mp.clear();
+        return solve(s, 0, n - 1, true);
+    }
+
+    static int solve(String s, int i, int j, boolean isTrue) {
+        // Base case: invalid range
+        if (i > j) {
+            return 0;
+        }
+
+        // Base case: single character
+        if (i == j) {
+            if (isTrue) {
+                return s.charAt(i) == 'T' ? 1 : 0;
+            } else {
+                return s.charAt(i) == 'F' ? 1 : 0;
+            }
+        }
+
+        // Construct memoization key
+        String temp = i + "_" + j + "_" + isTrue;
+
+        // Check if result is already computed
+        if (mp.containsKey(temp)) {
+            return mp.get(temp);
+        }
+
+        int ans = 0;
+
+        // Loop through the string for operators
+        for (int k = i + 1; k <= j - 1; k += 2) { // k points to operators
+            // Evaluate left and right parts
+            int lt = solve(s, i, k - 1, true) % MOD;
+            int lf = solve(s, i, k - 1, false) % MOD;
+            int rt = solve(s, k + 1, j, true) % MOD;
+            int rf = solve(s, k + 1, j, false) % MOD;
+
+            // Compute result based on the operator
+            if (s.charAt(k) == '&') {
+                if (isTrue) {
+                    ans = (ans + (lt * rt) % MOD) % MOD;
+                } else {
+                    ans = (ans + (lt * rf + rf * lf + lf * rt) % MOD) % MOD;
+                }
+            } else if (s.charAt(k) == '|') {
+                if (isTrue) {
+                    ans = (ans + (lt * rt + lt * rf + lf * rt) % MOD) % MOD;
+                } else {
+                    ans = (ans + (rf * lf) % MOD) % MOD;
+                }
+            } else if (s.charAt(k) == '^') {
+                if (isTrue) {
+                    ans = (ans + (lt * rf + lf * rt) % MOD) % MOD;
+                } else {
+                    ans = (ans + (rf * lf + lt * rt) % MOD) % MOD;
+                }
+            }
+        }
+
+        // Store result in memoization map
+        mp.put(temp, ans % MOD);
+        return ans % MOD;
+    }
+}
