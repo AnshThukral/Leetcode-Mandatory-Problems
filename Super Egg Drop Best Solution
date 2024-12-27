@@ -1,0 +1,60 @@
+class Solution {
+    int[][] t  = new int[101][10001];
+    public int superEggDrop(int k, int n) {
+        for(int i=0;i<101;i++){
+            for(int j=0;j<10001;j++){
+                t[i][j]=-1;
+            }
+        }
+
+        return solve(k,n);
+    }
+
+    public int solve(int e, int f){
+        if(f==0 || f==1){
+            return f;
+        }
+        if(e==1){
+            return f;
+        }
+
+        if(t[e][f] != -1){
+            return t[e][f];
+        }
+
+        int mn = Integer.MAX_VALUE;
+        int low = 1;
+        int high = f;
+
+        while(low<=high){
+            int mid = low + (high-low)/2;
+
+            int breakEgg,notBreakEgg;
+            if(t[e-1][mid-1] != -1){
+                breakEgg = t[e-1][mid-1];
+            }else{
+                breakEgg = solve(e-1,mid-1);
+                t[e-1][mid-1] = breakEgg;
+            }
+
+            if(t[e][f-mid] != -1){
+                notBreakEgg = t[e][f-mid];
+            }else{
+                notBreakEgg = solve(e,f-mid);
+                t[e][f-mid] = notBreakEgg;
+            }
+
+            int temp = 1 + Math.max(breakEgg,notBreakEgg);
+
+            mn = Math.min(mn,temp);
+
+            if(breakEgg<notBreakEgg){
+                low = mid+1;
+            }else{
+                high = mid-1;
+            }
+        }
+
+        return t[e][f] = mn;
+    }
+}
