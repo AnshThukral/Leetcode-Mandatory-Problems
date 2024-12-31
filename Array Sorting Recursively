@@ -1,0 +1,29 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+        int n = nums.length;
+        sort(nums,n);
+        return nums;
+    }
+
+    void sort(int[] nums,int n){
+        if(n==1){
+            return;
+        }
+        int val = nums[n-1];
+        sort(nums,n-1);
+        insert(nums,n-1,val);
+        return;
+    }
+
+    void insert(int[] nums,int n,int temp){
+        if(n==0 || nums[n-1]<= temp){
+            nums[n] = temp;
+            return;
+        }
+
+        int v = nums[n-1];
+        insert(nums,n-1,temp);
+        nums[n]=v;
+        return;
+    }
+}
