@@ -1,0 +1,40 @@
+class Solution
+{ 
+    static void reverse(Stack<Integer> s)
+    {
+        // add your code here
+        int n = s.size();
+        
+        if(n==0){
+            return;
+        }
+        
+        rev(s);
+        return;
+    }
+    
+    static void rev(Stack<Integer> s){
+        if(s.size() == 1){
+            return;
+        }
+        
+        int temp = s.peek();
+        s.pop();
+        reverse(s);
+        insert(s,temp);
+        return;
+    }
+    
+    static void insert(Stack<Integer> s,int temp){
+        if(s.size()==0){
+            s.push(temp);
+            return;
+        }
+        
+        int val = s.peek();
+        s.pop();
+        insert(s,temp);
+        s.push(val);
+        return;
+    }
+}
