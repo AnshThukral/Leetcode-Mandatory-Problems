@@ -1,0 +1,24 @@
+class Solution {
+
+    ArrayList<String> permutation(String s) {
+        // Code Here
+        ArrayList<String> ans = new ArrayList<>();
+        String temp = String.valueOf(s.charAt(0));
+        solve(s.substring(1),ans,temp);
+        return ans;
+    }
+    
+    public void solve(String s, ArrayList<String> ans, String temp){
+        if(s.isEmpty()){
+            ans.add(temp);
+            return;
+        }
+        
+        char ch = s.charAt(0);
+        
+        solve(s.substring(1),ans,temp+" "+ch);
+        solve(s.substring(1),ans,temp+ch);
+        
+    }
+    
+}
