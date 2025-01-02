@@ -1,0 +1,24 @@
+class Solution {
+    public List<String> letterCasePermutation(String s) {
+        List<String> ans = new ArrayList<>();
+        String temp ="";
+        solve(s,ans,temp);
+        return ans;
+    }
+
+    public void solve(String s,List<String> ans, String temp){
+        if(s.isEmpty()){
+            ans.add(temp);
+            return;
+        }
+
+        char ch = s.charAt(0);
+
+        if(Character.isLetter(ch)){
+            solve(s.substring(1),ans,temp + Character.toLowerCase(ch));
+            solve(s.substring(1),ans,temp + Character.toUpperCase(ch));
+        }else{
+            solve(s.substring(1),ans,temp + ch);
+        }
+    }
+}
