@@ -1,0 +1,34 @@
+class Solution { 
+    public static long sumBetweenTwoKth(long A[], long N, long K1, long K2)
+    {
+        // Your code goes here
+        
+        long first = solve(A,K1);
+        long second = solve(A,K2);
+        
+        long ans = 0;
+        
+        for(int i=0;i<A.length;i++){
+            if(A[i]>first && A[i]<second){
+                ans = ans + A[i];
+            }
+        }
+        
+        return ans;
+    }
+    
+    public static long solve(long arr[], long k){
+        PriorityQueue<Long> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+        
+        for(int i=0;i<arr.length;i++){
+            maxHeap.add(arr[i]);
+            
+            if(maxHeap.size()>k){
+                maxHeap.poll();
+            }
+        }
+        
+        return maxHeap.peek();
+    }
+    
+}
