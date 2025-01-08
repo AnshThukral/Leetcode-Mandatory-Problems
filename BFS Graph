@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Main {
+    public static void BFS(int source,Map<Integer,List<Integer>> adjacencyList,int n){
+        
+        Queue<Integer> q1 = new LinkedList<>();
+        int[] visited = new int[n];
+        
+        for(int i=0;i<n;i++){
+            visited[i]=0;
+        }
+        
+        q1.offer(source);
+        visited[source]=1;
+        
+        while(!q1.isEmpty()){
+            int f = q1.poll();
+            System.out.print(f+" ");
+            
+            for(int nbr: adjacencyList.get(f)){
+                if(visited[nbr]==0){
+                    q1.offer(nbr);
+                    visited[nbr]=1;
+                }
+            }
+            
+        }
+    }
+    public static void main(String[] args) {
+        int[][] edgeList = {
+            {0,1},{1,4},{1,2},{2,3}
+        };
+        int n = 5;
+        
+        Map<Integer,List<Integer>> adjacencyList = new HashMap<>();
+        
+        for(int i=0;i<edgeList.length;i++){
+            int a = edgeList[i][0];
+            int b = edgeList[i][1];
+            
+            if(!adjacencyList.containsKey(a)){
+                adjacencyList.put(a,new ArrayList<>());
+            }
+            adjacencyList.get(a).add(b);
+            
+            if(!adjacencyList.containsKey(b)){
+                adjacencyList.put(b,new ArrayList<>());
+            }
+            adjacencyList.get(b).add(a);
+        }
+        
+        BFS(0,adjacencyList,n);
+    }
+}
