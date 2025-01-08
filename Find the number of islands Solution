@@ -1,0 +1,60 @@
+class Solution {
+    static class Pair{
+        int first;
+        int second;
+        Pair(int first,int second){
+            this.first=first;
+            this.second=second;
+        }
+    }
+    
+    public void bfs(int r,int c,int[][] vis,char[][] grid){
+        vis[r][c]=1;
+        
+        Queue<Pair> q1 = new LinkedList<>();
+        
+        q1.offer(new Pair(r,c));
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        while(!q1.isEmpty()){
+            int row = q1.peek().first;
+            int col = q1.peek().second;
+            q1.poll();
+            
+            //traverse in the neighbours and mark them if islands
+            for(int deltaRow=-1;deltaRow<=1;deltaRow++){
+                for(int deltaCol=-1;deltaCol<=1;deltaCol++){
+                    int nRow = row + deltaRow;
+                    int nCol = col + deltaCol;
+                    
+                    if(nRow>=0 && nRow<n && nCol>=0 && nCol<m && grid[nRow][nCol]=='1' && vis[nRow][nCol]==0){
+                        vis[nRow][nCol]=1;
+                        q1.offer(new Pair(nRow,nCol));
+                    }
+                }
+            }
+        }
+    }
+    
+    public int numIslands(char[][] grid) {
+        // Code here
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        int[][] vis = new int[n][m];
+        int ans = 0;
+        
+        for(int r=0;r<n;r++){
+            for(int c=0;c<m;c++){
+                if(vis[r][c]==0 && grid[r][c]=='1'){
+                    bfs(r,c,vis,grid);
+                    ans++;
+                }
+            }
+        }
+        
+        return ans;
+        
+    }
+}
