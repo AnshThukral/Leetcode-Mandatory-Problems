@@ -1,0 +1,50 @@
+class Solution {
+    static class Pair{
+        int first,second,third;
+        Pair(int first,int second,int third){
+            this.first=first;
+            this.second=second;
+            this.third=third;
+        }
+    }
+    public int[][] highestPeak(int[][] isWater) {
+        int n = isWater.length;
+        int m = isWater[0].length;
+        int[][] vis = new int[n][m];
+        int[][] dis = new int[n][m];
+
+        Queue<Pair> q = new LinkedList<>();
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(isWater[i][j]==1){
+                    q.offer(new Pair(i,j,0));
+                    vis[i][j]=1;
+                }else{
+                    vis[i][j]=0;
+                }
+            }
+        }
+
+        int[] delRow = {-1,0,1,0};
+        int[] delCol = {0,1,0,-1};
+
+        while(!q.isEmpty()){
+            int row = q.peek().first;
+            int col = q.peek().second;
+            int steps = q.peek().third;
+            q.poll();
+            dis[row][col]=steps;
+            for(int i=0;i<4;i++){
+                int nRow = row + delRow[i];
+                int nCol = col + delCol[i];
+
+                if(nRow>=0 && nRow<n && nCol>=0 && nCol<m && vis[nRow][nCol]==0){
+                    q.offer(new Pair(nRow,nCol,steps+1));
+                    vis[nRow][nCol]=1;
+                }
+            }
+        }
+        return dis;
+    }
+}
