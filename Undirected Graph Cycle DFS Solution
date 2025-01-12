@@ -1,0 +1,30 @@
+class Solution {
+    public boolean dfs(int src, int parent,ArrayList<ArrayList<Integer>> adj, int[] vis){
+        vis[src]=1;
+        for(int nbr: adj.get(src)){
+            if(vis[nbr]==0){
+                vis[nbr]=1;
+                if(dfs(nbr,src,adj,vis)==true){
+                    return true;
+                }
+            }else if(nbr!=parent){
+                return true;
+            }
+        }
+        return false;
+    }
+    // Function to detect cycle in an undirected graph.
+    public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        int V = adj.size();
+        int[] vis = new int[V];
+        for(int i=0;i<V;i++){
+            if(vis[i]==0){
+                if(dfs(i,-1,adj,vis)==true){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
