@@ -1,0 +1,50 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class Main {
+    public static int lowerBound(int[] ans,int target,int low,int high){
+        int result = high+1;
+        while(high>=low){
+            int mid = low + (high-low)/2;
+            if(ans[mid]>=target){
+                result = mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }
+        return result;
+    }
+    public static int upperBound(int[] ans,int target,int low,int high){
+        int result = high+1;
+        while(high>=low){
+            int mid = low + (high-low)/2;
+            if(ans[mid]<=target){
+                result = mid;
+                low=mid+1;
+            }else{
+                high=mid-1;
+            }
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        int ans[]={2,3,1,4,6,5,7};
+        int l = 4;
+        int r = 11;
+        int n = ans.length;
+        
+        Arrays.sort(ans);
+        int total = 0;
+        for(int i=0;i<ans.length;i++){
+            int lower = l - ans[i];
+            int right = r - ans[i];
+            
+            int left = lowerBound(ans,lower,i+1,n-1);
+            int righ = upperBound(ans,right,i+1,n-1);
+            
+            total = total + (righ-left+1);
+        }
+        System.out.println(total);
+    }
+}
