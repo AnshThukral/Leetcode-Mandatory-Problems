@@ -1,0 +1,46 @@
+class Solution {
+    public String smallestGoodBase(String n) {
+        long num = Long.parseLong(n);
+        long ans = 0;
+        
+        for (int i = 63; i >= 2; i--) {  // Try different number of digits in base
+            long low = 2;
+            long high = num - 1;
+            
+            while (high >= low) {
+                long mid = low + (high - low) / 2;  // Binary search for the base
+                long sum = 0;
+                long x = 1;
+                int flag = 0;
+                
+                // Sum the geometric progression
+                for (int j = 0; j < i; j++) {
+                    sum += x;  // Add current term
+                    if (sum > num) break;  // If sum exceeds num, stop
+
+                    if (j < i - 1) {  // Check for overflow in next multiplication
+                        if ((num - sum) / mid < x) {  // Overflow check
+                            flag = 1;
+                            break;
+                        }
+                        x *= mid;  // Multiply by mid for next term
+                    }
+                }
+
+                // Check if the sum exceeds num or an overflow is detected
+                if (sum > num || flag == 1) {
+                    high = mid - 1;
+                } else if (sum < num) {
+                    low = mid + 1;
+                } else {
+                    ans = mid;  // Found a valid base
+                    break;
+                }
+            }
+            
+            if (ans != 0) break;  // Exit outer loop if a valid base is found
+        }
+
+        return Long.toString(ans);  // Return the answer as a string
+    }
+}
