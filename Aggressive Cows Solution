@@ -1,0 +1,37 @@
+class Solution {
+    public static boolean isPossible(int[] stalls, int dis, int k){
+        int cows = 1;
+        int prev = stalls[0];
+        for(int i=1;i<stalls.length;i++){
+            if(stalls[i]-prev>=dis){
+                prev = stalls[i];
+                cows++;
+            }
+        }
+        if(cows>=k){
+            return true;
+        }
+        return false;
+    }
+    public static int aggressiveCows(int[] stalls, int k) {
+        // code here
+        int n = stalls.length;
+        Arrays.sort(stalls);
+        
+        int low = 1;
+        int high = stalls[n-1] - stalls[0];
+        int ans = 0;
+        
+        while(high>=low){
+            int mid = low + (high-low)/2;
+            
+            if(isPossible(stalls,mid,k)){
+                ans = mid;
+                low = mid+1;
+            }else{
+                high=mid-1;
+            }
+        }
+        return ans;
+    }
+}
