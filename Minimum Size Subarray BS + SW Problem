@@ -1,0 +1,74 @@
+Given an array of positive integers nums and a positive integer target, print the minimal length of a contiguous subarray [nums[l],nums[l+1],...,nums[r−1],nums[r]] of which the sum is greater than or equal to target. If there is no such subarray, return 0
+
+instead.
+
+Input Format
+
+    The first line of input contains N
+
+, number of elements in the array nums
+.
+The second line of input contains N
+space - separated positive integers.
+The third line of input contains T
+, number of testcases.
+First line of each testcase contains target
+
+    .
+
+Constraints
+
+    1
+
+≤ T ≤ 100
+1
+≤ N ≤ 105
+1
+≤ nums[i] ≤ 105
+1
+≤ target ≤ 109
+
+Output Format
+
+    Print the minimum length of contiguous subarray for every testcase, if found. Otherwise, print 0
+
+    .
+
+Sample Input 0
+
+6
+2 3 1 2 4 3
+3
+7
+4
+16
+
+Sample Output 0
+
+2
+1
+0
+
+Explanation
+
+    The subarray [4,3]
+
+has the minimal length under the problem constraint.
+The subarray [4]
+has the minimal length under the problem constraint.
+No subarray with sum greater than equal to 16
+
+    .
+
+Example
+Input
+6
+2 3 1 2 4 3
+3
+7
+4
+16
+Output
+2
+1
+0
