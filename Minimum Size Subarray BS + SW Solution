@@ -1,0 +1,56 @@
+class Main {
+    public static boolean isPossible(int[] arr,int k,int target){
+        int s  = 0;
+        for(int i=0;i<k;i++){
+            s = s + arr[i];
+        }
+        
+        if(s==target){
+            return true;
+        }
+        
+        for(int i=k;i<arr.length;i++){
+            s = s + arr[i];
+            s = s - arr[i-k];
+            
+            if(s==target){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static void main(String[] args) {
+        int arr[] = {2,3,1,2,4,3};
+        int sum = 7;
+        
+        int n = arr.length;
+        int sumArr=0;
+        for(int i=0;i<n;i++){
+            sumArr=sumArr+arr[i];
+        }
+        if(sumArr<sum){
+            System.out.println(0);
+            return;
+        }
+        if(sumArr==sum){
+            System.out.println(n);
+            return;
+        }
+        
+        int low = 0;
+        int high = n-1;
+        int ans = 0;
+        
+        while(high>=low){
+            int mid = low + (high-low)/2;
+            if(isPossible(arr,mid,sum)){
+                ans=mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }
+        System.out.println(ans);
+    }
+}
