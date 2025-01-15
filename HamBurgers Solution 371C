@@ -1,0 +1,55 @@
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        
+        String inp="BBBSSC";
+        long haveB=6;
+        long haveS=4;
+        long haveC=1;
+        long priceB=1;
+        long priceS=2;
+        long priceC=3;
+        
+        long money = 4;
+        long reqB=0;
+        long reqS=0;
+        long reqC=0;
+        
+        //Ratio
+        for(int i=0;i<inp.length();i++){
+            char ch = inp.charAt(i);
+            if(ch=='B'){
+                reqB++;
+            }else if(ch=='S'){
+                reqS++;
+            }else if(ch=='C'){
+                reqC++;
+            }
+        }
+        
+        long low = 0;
+        long high = money + 200;
+        long ans = 0;
+        
+        while(low<=high){
+            long mid = low + (high-low)/2;
+            //Mid denotes the no of hamburgers we can make
+            long z = 0;
+            long r1 = Math.max(reqB*mid - haveB,z);
+            long r2 = Math.max(reqS*mid - haveS,z);
+            long r3 = Math.max(reqC*mid - haveC,z);
+            
+            long price = r1*priceB + r2*priceS + r3*priceC;
+            
+            if(price<=money){
+                ans = mid;
+                low = mid+1;
+            }else{
+                high = mid-1;
+            }
+        }
+        
+        System.out.println(ans);
+        
+    }
+}
