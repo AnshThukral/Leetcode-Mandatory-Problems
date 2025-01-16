@@ -18,7 +18,7 @@ class Solution {
                     sum += x;  // Add current term
                     if (sum > num) break;  // If sum exceeds num, stop
 
-                    if (j < i - 1) {  // Check for overflow in next multiplication
+                    if (j < i - 1) {  // Check for overflow in next multiplication kb kb check krni condition hr br expect last
                         if ((num - sum) / mid < x) {  // Overflow check
                             flag = 1;
                             break;
