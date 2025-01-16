@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = 4;
+        int m = 4;
+        int k = 3;
+        int[] a = new int[m];
+        HashSet<Integer> s1 = new HashSet<>();
+        HashSet<Integer> s2 = new HashSet<>();
+        
+        for(int i=1;i<=n;i++){
+            s1.add(i);
+        }
+        
+        for(int i=0;i<m;i++){
+            a[i] = sc.nextInt();
+        }
+        
+        int[] knows = new int[k];
+        for(int i=0;i<k;i++){
+            knows[i] = sc.nextInt();
+            s2.add(knows[i]);
+        }
+        
+        String ans = "";
+        
+        if(s1.equals(s2)){
+            for(int i=0;i<m;i++){
+                ans+="1";
+            }
+            System.out.println(ans);
+            return;
+        }
+        
+        if(k<n-1){
+            for(int i=0;i<m;i++){
+                ans+="0";
+            }
+            System.out.println(ans);
+            return;
+        }
+        
+        for(int i=0;i<m;i++){
+            if(!s2.contains(a[i])){
+                ans+="1";
+            }else{
+                ans+="0";
+            }
+        }
+        System.out.println(ans);
+    }
+}
