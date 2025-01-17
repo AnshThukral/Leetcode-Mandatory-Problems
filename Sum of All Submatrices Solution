@@ -1,0 +1,23 @@
+class Main {
+    public static void main(String[] args) {
+        int n = 2;
+        int m = 2;
+        int[][] matrix = new int[n][m];
+        int val = 1;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                matrix[i][j]=val;
+                val=val+1;
+            }
+        }
+        int sum = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                int topLeft=(i+1)*(j+1);
+                int bottomRight = (n-i)*(m-j);
+                sum = sum + matrix[i][j]*topLeft*bottomRight;
+            }
+        }
+        System.out.println(sum);
+    }
+}
