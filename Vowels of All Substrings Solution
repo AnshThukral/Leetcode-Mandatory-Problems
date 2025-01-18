@@ -1,0 +1,18 @@
+class Solution {
+    public long countVowels(String word) {
+        long ans = 0;
+        long left = 0;
+        long right = 0;
+        int n = word.length();
+        for(int i=0;i<n;i++){
+            char ch = word.charAt(i);
+
+            if(ch=='a' || ch=='e' || ch=='i' || ch=='o' || ch=='u'){
+                left = i+1;
+                right = n-i;
+                ans = ans + (left*right);
+            }
+        }
+        return ans;
+    }
+}
