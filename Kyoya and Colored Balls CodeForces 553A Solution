@@ -1,0 +1,36 @@
+import java.util.*;
+class Main {
+    static final int mod = 1000000007;
+    static final int max = 1010;
+    
+    static long[][] mat = new long[max][max];
+    
+    public static void precompute(){
+        mat[0][0]=1;
+        for(int i=1;i<max;i++){
+            mat[i][0]=1;
+            for(int j=1;j<=i;j++){
+                mat[i][j] = ( mat[i-1][j] + mat[i-1][j-1] )%mod;
+            }
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        precompute();
+        
+        int k = sc.nextInt();
+        int[] color = new int[k];
+        for(int i=0;i<k;i++){
+            color[i] = sc.nextInt();
+        }
+        
+        long res = 1;
+        long totalBalls = 0;
+        for(int i=0;i<k;i++){
+            totalBalls+=color[i];
+            res = (res * mat[(int) totalBalls - 1][color[i]-1])%mod;
+        }
+        System.out.println(res);
+    }
+}
