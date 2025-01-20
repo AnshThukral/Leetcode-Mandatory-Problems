@@ -1,0 +1,22 @@
+class Solution {
+    double power(double b, int e) {
+        // code here
+        if(e==0) return 1.0;
+        
+        if(e<0){
+            b=1/b;
+            e=-e;
+        }
+        
+        double ans = 1.0;
+        while(e>0){
+            if(e%2==1){
+                ans = ans * b;
+            }
+            
+            b=b*b;
+            e=e/2;
+        }
+        return ans;
+    }
+}
