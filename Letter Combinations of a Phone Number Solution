@@ -1,0 +1,23 @@
+class Solution {
+    public void fun(int ind,String str,String s,List<String> ans,String[] arr){
+        if(ind>=s.length()){
+            ans.add(str);
+            return;
+        }
+        String letters = arr[s.charAt(ind)-'2'];
+        for(int i=0;i<letters.length();i++){
+            fun(ind+1,str+letters.charAt(i),s,ans,arr);
+        }
+    }
+    public List<String> letterCombinations(String digits) {
+        int n=10;
+        String[] arr = {"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        int len = digits.length();
+        if(len==0){
+            return new ArrayList<>();
+        }
+        List<String> ans = new ArrayList<>();
+        fun(0,"",digits,ans,arr);
+        return ans;
+    }
+}
