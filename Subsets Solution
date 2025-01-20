@@ -1,0 +1,21 @@
+class Solution {
+    public ArrayList<ArrayList<Integer>> subsets(int arr[]) {
+        // code here
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        ArrayList<Integer> temp = new ArrayList<>();
+        solve(arr,0,ans,temp);
+        return ans;
+    }
+    
+    public void solve(int[] arr,int i,ArrayList<ArrayList<Integer>> ans, ArrayList<Integer> temp){
+        if(i==arr.length){
+            ans.add(new ArrayList<>(temp));
+            return;
+        }
+        
+        temp.add(arr[i]);
+        solve(arr,i+1,ans,temp);
+        temp.remove(temp.size()-1);
+        solve(arr,i+1,ans,temp);
+    }
+}
