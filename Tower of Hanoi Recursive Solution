@@ -27,3 +27,22 @@ Efficient
 
 int ans = (int) Math.pow(2,n);
 return ans - 1;
+
+public int towerOfHanoi(int n, int from, int to, int aux) {
+        // Your code here
+        int[] count = new int[1];
+        solve(n,from,to,aux,count);
+        return count[0];
+    }
+    
+    public void solve(int n,int from,int to,int aux,int[] count){
+        if(n<=0){
+            return;
+        }
+        
+        solve(n-1,from,aux,to,count);
+        count[0]++;
+        solve(n-1,aux,to,from,count);
+        
+        return;
+    }
