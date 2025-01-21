@@ -1,0 +1,27 @@
+import java.util.*;
+
+class Main {
+    public static void solve(int n,int A,int B,int C,int[] ans){
+        if(n<=0){
+            return;
+        }
+        solve(n-1,C,A,B,ans);
+        ans[0]++;
+        solve(n-1,A,C,B,ans);
+        ans[0]++;
+        solve(n-1,C,A,B,ans);
+    }
+    public static void main(String[] args) {
+        int n,m;
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        int A = 1;
+        int B = 2;
+        int C = 3;
+        int[] ans = new int[1];
+        solve(n,A,B,C,ans);
+        double pow = ans[0]%m;
+        System.out.println((int)pow);
+    }
+}
