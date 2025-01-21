@@ -25,3 +25,16 @@ class Main {
         System.out.println((int)pow);
     }
 }
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        int n,m;
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        int temp =(int) Math.pow(3,n)-1;
+        double pow = temp%m;
+        System.out.println((int)pow);
+    }
+}
