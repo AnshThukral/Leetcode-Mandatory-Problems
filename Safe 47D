@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+
+class Main {
+    public static boolean check(String w, String g, int m) {
+        int count = 0;
+        for (int i = 0; i < w.length(); i++) {
+            if (w.charAt(i) != g.charAt(i)) {
+                count++;
+            }
+        }
+        return count == m;
+    }
+
+    public static void main(String[] args) {
+        String s = "000000";
+        int n = 2;
+        String[] guess = {"010100"};
+        int m = 4;
+        ArrayList<String> ans = new ArrayList<>();
+        String op = "";
+        
+        solve(s, n, 0, op, ans); // Generate all possible strings
+        System.out.println("Generated Strings: " + ans);
+
+        int res = 0;
+
+        // Check each generated string against the guess array
+        for (String pw : ans) {
+            boolean flag = true;
+            for (String g : guess) {
+                if (!check(pw, g, m)) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                res++;
+            }
+        }
+        
+        // Print the result
+        System.out.println("Number of valid strings: " + res);
+    }
+
+    public static void solve(String s, int n, int ind, String op, ArrayList<String> ans) {
+        if (ind >= s.length()) {
+            if (n == 0) {
+                ans.add(op);
+            }
+            return;
+        }
+
+        // Recursive call without flipping the current character
+        solve(s, n, ind + 1, op + s.charAt(ind), ans);
+
+        // Recursive call with flipping the current character if `n > 0`
+        if (n > 0) {
+            char flipped = (s.charAt(ind) == '1') ? '0' : '1';
+            solve(s, n - 1, ind + 1, op + flipped, ans);
+        }
+    }
+}
