@@ -1,0 +1,31 @@
+    public Stack<Integer> sort(Stack<Integer> s) {
+        // add code here.
+        int n = s.size();
+        sort(s,n);
+        return s;
+    }
+    
+    public void sort(Stack<Integer> s,int n){
+        if(n==1){
+            return;
+        }
+        
+        int ele = s.peek();
+        s.pop();
+        sort(s,n-1);
+        insert(s,n-1,ele);
+        return;
+    }
+    
+    public void insert(Stack<Integer> s,int n,int ele){
+        if(n==0 || s.peek()<=ele){
+            s.push(ele);
+            return;
+        }
+        
+        int val = s.peek();
+        s.pop();
+        insert(s,n-1,ele);
+        s.push(val);
+    }
+}
