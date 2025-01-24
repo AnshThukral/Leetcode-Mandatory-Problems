@@ -1,0 +1,40 @@
+class Solution {
+    public String getPermutation(int n, int k) {
+        // Create an array to represent numbers 1 to n
+        List<Integer> nums = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            nums.add(i);
+        }
+        
+        // Calculate factorials to help with position calculations
+        int fact = 1;
+        for (int i = 1; i < n; i++) {
+            fact *= i;
+        }
+        
+        // Convert k to 0-based indexing
+        k--;
+        
+        StringBuilder result = new StringBuilder();
+        
+        // Build the k-th permutation
+        for (int i = 0; i < n; i++) {
+            // Determine which number should be at the current position
+            int index = k / fact;
+            result.append(nums.get(index)); // Add that number to the result
+            
+            // Remove the used number from the list
+            nums.remove(index);
+            
+            // Update k for the next iteration
+            k %= fact;
+            
+            // Update fact to represent the factorial of the remaining length
+            if (i < n - 1) {
+                fact /= (n - 1 - i);
+            }
+        }
+        
+        return result.toString();
+    }
+}
