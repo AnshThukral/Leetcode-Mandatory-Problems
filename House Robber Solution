@@ -1,0 +1,24 @@
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+
+        for(int i=0;i<n;i++){
+            dp[i]=-1;
+        }
+
+        return solve(nums,0,dp);
+    }
+    public int solve(int[] nums,int ind,int[] dp){
+        if(ind>=nums.length) return 0;
+
+        if(dp[ind]!=-1) return dp[ind];
+
+        int not = solve(nums,ind+1,dp);
+
+        int ch = nums[ind] + solve(nums,ind+2,dp);
+
+        dp[ind]=Math.max(not,ch);
+        return dp[ind];
+    }
+}
