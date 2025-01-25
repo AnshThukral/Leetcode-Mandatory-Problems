@@ -1,0 +1,35 @@
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if(n==0) return 0;
+        if(n==1) return nums[0];
+
+        int case1 = solve(nums,0,n-2);
+        int case2 = solve(nums,1,n-1);
+
+        return Math.max(case1,case2);
+    }
+
+    public int solve(int[] nums,int start,int end){
+        if(start>end) return 0;
+
+        int[] dp = new int[end+1];
+        for(int i=start;i<=end;i++){
+            dp[i]=-1;
+        }
+
+        return solve2(nums,dp,start,end);
+    }
+
+    public int solve2(int[] nums,int[] dp,int ind,int end){
+        if(ind>end) return 0;
+
+        if(dp[ind]!=-1) return dp[ind];
+
+        int not = solve2(nums,dp,ind+1,end);
+        int ch = nums[ind] + solve2(nums,dp,ind+2,end);
+
+        dp[ind]=Math.max(not,ch);
+        return dp[ind];
+    }
+}
