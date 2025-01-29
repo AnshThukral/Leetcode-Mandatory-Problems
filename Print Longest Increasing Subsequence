@@ -1,0 +1,49 @@
+
+
+class Main {
+    public static void main(String[] args) {
+        int[] arr = {5,4,11,16,8};
+        int n = 5;
+        
+        int[] dp = new int[n];
+        for(int i=0;i<n;i++){
+            dp[i]=1;
+        }
+        
+        int maxi=0;
+        int lastIndex=0;
+        
+        int[] hash = new int[n];
+        
+        for(int i=0;i<n;i++){
+            hash[i]=i;
+            for(int prev=0;prev<i;prev++){
+                if(arr[prev]<arr[i] && 1+dp[prev]>dp[i]){
+                    dp[i]=1+dp[prev];
+                    hash[i]=prev;
+                }
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            if(dp[i]>maxi){
+                maxi=dp[i];
+                lastIndex=i;
+            }
+        }
+        
+        int[] ans = new int[maxi];
+        ans[0]=arr[lastIndex];
+        int ind=1;
+        
+        while(hash[lastIndex] != lastIndex){
+            lastIndex=hash[lastIndex];
+            ans[ind]=arr[lastIndex];
+            ind++;
+        }
+        
+        for(int i=maxi-1;i>=0;i--){
+            System.out.println(ans[i]);
+        }
+    }
+}
