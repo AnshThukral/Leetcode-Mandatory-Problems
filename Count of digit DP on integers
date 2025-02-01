@@ -1,0 +1,46 @@
+import java.util.*;
+class Main {
+    static int[][][] dp = new int[20][2][20];
+    
+    public static int solve(String s,int ind,int tight,int cnt){
+        if(ind==s.length()) return cnt;
+        
+        if(dp[ind][tight][cnt] != -1) return dp[ind][tight][cnt];
+        
+        int limit = (tight==1) ? s.charAt(ind)-'0' : 9;
+        int ans = 0;
+        for(int i=0;i<=limit;i++){
+            int updateCnt = cnt + (i==3 ? 1: 0);
+            int newTight = (tight==1 && i==s.charAt(ind)-'0')?1:0;
+            ans += solve(s,ind+1,newTight,updateCnt);
+        }
+        return dp[ind][tight][cnt] = ans;
+    }
+    public static void main(String[] args) {
+        int l = 11;
+        int r = 23;
+        for(int i=0;i<20;i++){
+            for(int j=0;j<2;j++){
+                for(int k=0;k<20;k++){
+                    dp[i][j][k]=-1;
+                }
+            }
+        }
+        String ri = Integer.toString(r);
+        int rightAns = solve(ri,0,1,0);
+        
+        for(int i=0;i<20;i++){
+            for(int j=0;j<2;j++){
+                for(int k=0;k<20;k++){
+                    dp[i][j][k]=-1;
+                }
+            }
+        }
+        
+        String li = Integer.toString(l,-1);
+        int leftAns = solve(li,0,1,0);
+        
+        int ans = rightAns-leftAns;
+        System.out.println(ans);
+    }
+}
