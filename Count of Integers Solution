@@ -1,0 +1,54 @@
+class Solution {
+    static int[][][] dp = new int[23][2][401];
+    static int mod = 1000000007;
+    public int solve(String s,int ind,int tight,int sum,int min,int max){
+        if(sum>max) return 0;
+
+        if(ind==s.length()) return (sum>=min)?1:0;
+
+        if(dp[ind][tight][sum] != -1) return dp[ind][tight][sum];
+
+        int limit = (tight==1)? s.charAt(ind)-'0':9;
+        int ans = 0;
+        for(int i=0;i<=limit;i++){
+            int newTight = (tight==1 && i==limit)?1:0;
+            ans = (ans + solve(s,ind+1,newTight,sum+i,min,max))%mod;
+        }
+
+        return dp[ind][tight][sum] = ans;
+    }
+    public int count(String num1, String num2, int min_sum, int max_sum) {
+        for(int i=0;i<23;i++){
+            for(int j=0;j<2;j++){
+                for(int k=0;k<401;k++){
+                    dp[i][j][k]=-1;
+                }
+            }
+        }
+        int RightAns = solve(num2,0,1,0,min_sum,max_sum);
+
+        for(int i=0;i<23;i++){
+            for(int j=0;j<2;j++){
+                for(int k=0;k<401;k++){
+                    dp[i][j][k]=-1;
+                }
+            }
+        }
+
+        int LeftAns = solve(num1,0,1,0,min_sum,max_sum);
+
+        int first = check(num1);
+
+        return (RightAns - LeftAns + ((first>=min_sum && first<=max_sum)?1:0) + mod)%mod;
+    }
+
+    public int check(String s){
+        int sum = 0;
+
+        for(int i=0;i<s.length();i++){
+            sum = sum + s.charAt(i) - '0';
+        }
+
+        return sum;
+    }
+}
