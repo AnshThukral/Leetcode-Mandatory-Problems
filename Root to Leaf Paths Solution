@@ -1,0 +1,23 @@
+class Solution {
+    public static ArrayList<ArrayList<Integer>> Paths(Node root) {
+        // code here
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        ArrayList<Integer> temp = new ArrayList<>();
+        solve(root,temp,ans);
+        return ans;
+    }
+    public static void solve(Node root,ArrayList<Integer> temp,ArrayList<ArrayList<Integer>> ans){
+        if(root==null) return;
+
+        temp.add(root.data);
+        
+        if(root.left==null && root.right==null){
+            ans.add(new ArrayList<>(temp));
+        }else{
+            solve(root.left,temp,ans);
+            solve(root.right,temp,ans);
+        }
+        
+        temp.remove(temp.size()-1);
+    }
+}
