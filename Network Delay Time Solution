@@ -1,0 +1,54 @@
+class Solution {
+    static class Pair{
+        int first,second;
+        Pair(int first,int second){
+            this.first=first;
+            this.second=second;
+        }
+    }
+    public int networkDelayTime(int[][] times, int n, int k) {
+        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+
+        for(int i=0;i<=n;i++){
+            adj.add(new ArrayList<>());
+        }
+
+        for(int[] time:times){
+            adj.get(time[0]).add(new Pair(time[1],time[2]));
+        }
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.second));
+
+        int[] dis = new int[n+1];
+        Arrays.fill(dis,Integer.MAX_VALUE);
+
+        pq.offer(new Pair(k,0));
+        dis[k]=0;
+
+        while(!pq.isEmpty()){
+            Pair node = pq.poll();
+            int ele = node.first;
+            int dist = node.second;
+
+            for(Pair nbr: adj.get(ele)){
+                int newNode = nbr.first;
+                int newD = nbr.second;
+
+                if(newD + dist< dis[newNode]){
+                    dis[newNode]=newD + dist;
+                    pq.offer(new Pair(newNode,dis[newNode]));
+                }
+            }
+        }
+
+        int max = Integer.MIN_VALUE;
+
+        for(int i=1;i<=n;i++){
+            if(dis[i]==Integer.MAX_VALUE) return -1;
+            max = Math.max(max,dis[i]);
+        }
+
+        return max;
+
+    }
+}
