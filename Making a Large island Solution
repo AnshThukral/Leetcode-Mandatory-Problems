@@ -1,0 +1,105 @@
+
+class Solution {
+    static class DSU {
+        int[] parent, size;
+
+        public DSU(int n) {
+            parent = new int[n];
+            size = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;  // Each node is its own parent initially
+                size[i] = 1;    // Each set starts with size 1
+            }
+        }
+
+        // Find with Path Compression
+        public int find(int x) {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x]);  // Path compression
+            }
+            return parent[x];
+        }
+
+        // Union by Size
+        public void union(int a, int b) {
+            int rootA = find(a);
+            int rootB = find(b);
+
+            if (rootA != rootB) {
+                if (size[rootA] > size[rootB]) {
+                    parent[rootB] = rootA;
+                    size[rootA] += size[rootB];
+                } else {
+                    parent[rootA] = rootB;
+                    size[rootB] += size[rootA];
+                }
+            }
+        }
+
+        // Get size of a component
+        public int getSize(int x) {
+            return size[find(x)];
+        }
+    }
+
+    public boolean isValid(int row, int col, int n) {
+        return row >= 0 && row < n && col >= 0 && col < n;
+    }
+
+    public int largestIsland(int[][] grid) {
+        int n = grid.length;
+        DSU dsu = new DSU(n * n);
+
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                if (grid[row][col] == 0) continue;
+
+                int dr[] = {-1, 0, 1, 0};
+                int dc[] = {0, -1, 0, 1};
+
+                for (int ind = 0; ind < 4; ind++) {
+                    int newR = row + dr[ind];
+                    int newC = col + dc[ind];
+                    if (isValid(newR, newC, n) && grid[newR][newC] == 1) {
+                        int node = row * n + col;
+                        int adj = newR * n + newC;
+
+                        dsu.union(node, adj);
+                    }
+                }
+            }
+        }
+
+        int mx = 0;
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                if (grid[row][col] == 1) continue;
+
+                int dr[] = {-1, 0, 1, 0};
+                int dc[] = {0, -1, 0, 1};
+                HashSet<Integer> s = new HashSet<>();
+                
+                for (int ind = 0; ind < 4; ind++) {
+                    int newR = row + dr[ind];
+                    int newC = col + dc[ind];
+                    if (isValid(newR, newC, n) && grid[newR][newC] == 1) {
+                        s.add(dsu.find(newR * n + newC));
+                    }
+                }
+
+                int size = 1; // Counting the current '0' turned into '1'
+                for (Integer par : s) {
+                    size += dsu.getSize(par);
+                }
+                mx = Math.max(mx, size);
+            }
+        }
+
+        for (int cell = 0; cell < n * n; cell++) {
+            mx = Math.max(mx, dsu.getSize(cell));
+        }
+
+        return mx;
+    }
+}
