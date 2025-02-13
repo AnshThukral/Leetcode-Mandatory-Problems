@@ -1,0 +1,36 @@
+class Solution {
+    static class Pair{
+        int first;
+        int second;
+        Pair(int first,int second){
+            this.first=first;
+            this.second=second;
+        }
+    }
+    static int spanningTree(int V, int E, List<List<int[]>> adj) {
+        // Code Here.
+        PriorityQueue<Pair> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.second));
+        pq.offer(new Pair(0,0));
+        int sum = 0;
+        
+        int[] vis = new int[V];
+        
+        while(!pq.isEmpty()){
+            Pair node = pq.poll();
+            int ele = node.first;
+            int wt = node.second;
+            
+            if(vis[ele]==1) continue;
+            
+            vis[ele]=1;
+            sum+=wt;
+            
+            for(int[] nbr: adj.get(ele)){
+                if(vis[nbr[0]]==0){
+                    pq.offer(new Pair(nbr[0],nbr[1]));
+                }
+            }
+        }
+        return sum;
+    }
+}
