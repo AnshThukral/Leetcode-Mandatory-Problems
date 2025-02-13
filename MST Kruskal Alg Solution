@@ -1,0 +1,73 @@
+class Solution {
+    static class DSU{
+        static int[] parent;
+        static int[] size;
+        
+        DSU(int n){
+            parent=new int[n];
+            size=new int[n];
+            
+            for(int i=0;i<n;i++){
+                parent[i]=i;
+                size[i]=1;
+            }
+        }
+        
+        static int find(int x){
+            if(parent[x]==x) return x;
+            
+            return parent[x] = find(parent[x]);
+        }
+        
+        static void union(int x,int y){
+            int parX = find(x);
+            int parY = find(y);
+            
+            if(parX != parY){
+                if(size[parX]<size[parY]){
+                    parent[parX]=parY;
+                    size[parY] += size[parX];
+                }else{
+                    parent[parY]=parX;
+                    size[parX] += size[parY];
+                }
+            }
+        }
+    }
+    static int spanningTree(int V, int E, List<List<int[]>> adj) {
+        // Code Here.
+        List<int[]> edges = new ArrayList<>();
+        
+        for(int i=0;i<V;i++){
+            for(int[] nbr: adj.get(i)){
+                int v = nbr[0];
+                int wt = nbr[1];
+                
+                if(i<v) edges.add(new int[]{wt,i,v});
+            }
+        }
+        
+        edges.sort(Comparator.comparingInt(a->a[0]));
+        
+        DSU dsu = new DSU(V);
+        
+        int sum=0;
+        int edgeUsed = 0;
+        
+        for(int[] edge: edges){
+            int wt = edge[0];
+            int u = edge[1];
+            int v = edge[2];
+            
+            if(DSU.find(u) != DSU.find(v)){
+                DSU.union(u,v);
+                sum+=wt;
+                edgeUsed++;
+                
+                if(edgeUsed==V-1) break;
+            }
+        }
+        
+        return sum;
+    }
+}
