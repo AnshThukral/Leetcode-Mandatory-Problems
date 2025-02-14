@@ -1,0 +1,45 @@
+class Solution {
+    public void dfs(int n, int p, List<List<Integer>> adj, int[] vis, int[] time, int[] dtime, int[] low, List<List<Integer>> result) {
+        vis[n] = 1;
+        dtime[n] = low[n] = time[0]++;
+
+        for (int nbr : adj.get(n)) {
+            if (nbr == p) continue;
+
+            if (vis[nbr] == 1) {
+                low[n] = Math.min(low[n], low[nbr]);
+            } else {
+                dfs(nbr, n, adj, vis, time, dtime, low, result);
+                low[n] = Math.min(low[n], low[nbr]);
+
+                if (low[nbr] > dtime[n]) {
+                    result.add(Arrays.asList(n, nbr));  // Add the critical connection (bridge)
+                }
+            }
+        }
+    }
+
+    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Build adjacency list
+        for (List<Integer> edge : connections) {
+            int u = edge.get(0), v = edge.get(1);
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        int[] vis = new int[n];
+        int[] dtime = new int[n];
+        int[] low = new int[n];
+        int[] time = new int[1];  // Using array to maintain reference
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        dfs(0, -1, adj, vis, time, dtime, low, result);
+        return result;
+    }
+}
