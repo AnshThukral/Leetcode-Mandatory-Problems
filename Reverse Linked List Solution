@@ -1,0 +1,34 @@
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null, curr = head;
+        
+        while (curr != null) {
+            ListNode nextNode = curr.next; // Store next node
+            curr.next = prev; // Reverse link
+            prev = curr; // Move prev to current
+            curr = nextNode; // Move current to next node
+        }
+        
+        return prev; // New head
+    }
+}
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head; // Base case
+        
+        ListNode newHead = reverseList(head.next);
+        head.next.next = head; // Reverse link
+        head.next = null; // Break original link
+        
+        return newHead;
+    }
+}
