@@ -1,0 +1,30 @@
+class Solution {
+    static int getCarries(String N , String M) {
+        // code here
+        int n = N.length();
+        int m = M.length();
+        int i = n-1;
+        int j = m-1;
+        
+        int c = 0;
+        int total = 0;
+        
+        while(i>=0 || j>=0){
+            int d1 = (i>=0)?N.charAt(i)-'0':0;
+            int d2 = (j>=0)?M.charAt(j)-'0':0;
+            
+            int sum = d1 + d2 + c;
+            
+            if(sum>9){
+                total++;
+                c=1;
+            }else{
+                c=0;
+            }
+            
+            i--;
+            j--;
+        }
+        return total;
+    }
+};
