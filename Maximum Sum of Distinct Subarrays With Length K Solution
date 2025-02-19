@@ -28,3 +28,35 @@ class Solution {
         return ans;
     }
 }
+
+
+class Solution {
+    public long maximumSubarraySum(int[] nums, int k) {
+        int n = nums.length;
+        if (k > n) return 0; // Fix: Handle cases where k is larger than nums.length
+
+        long ans = 0;
+        long temp = 0;
+        int i = 0;
+        HashSet<Integer> s = new HashSet<>();
+
+        for (int j = 0; j < n; j++) {
+            while (s.contains(nums[j])) {
+                temp -= nums[i];
+                s.remove(nums[i]);
+                i++;
+            }
+
+            temp += nums[j];
+            s.add(nums[j]);
+
+            if (j - i + 1 == k) {
+                ans = Math.max(ans, temp);
+                temp -= nums[i];
+                s.remove(nums[i]);
+                i++;
+            }
+        }
+        return ans;
+    }
+}
