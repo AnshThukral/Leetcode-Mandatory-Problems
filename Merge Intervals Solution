@@ -1,0 +1,49 @@
+class Solution {
+    static class Pair {
+        int first, second;
+        Pair(int first, int second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+    public int[][] merge(int[][] intervals) {
+        int n = intervals.length;
+        if (n == 0) return new int[0][0];
+
+        // Step 1: Sort intervals based on start time
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+
+        ArrayList<Pair> ans = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) { 
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+
+            // Skip already merged intervals
+            if (!ans.isEmpty() && end <= ans.get(ans.size() - 1).second) {
+                continue;
+            }
+
+            // Merge overlapping intervals
+            for (int j = i + 1; j < n; j++) {
+                if (intervals[j][0] <= end) {
+                    end = Math.max(end, intervals[j][1]);
+                } else {
+                    break;
+                }
+            }
+
+            // Add the merged interval
+            ans.add(new Pair(start, end));
+        }
+
+        // Convert ArrayList<Pair> to 2D array
+        int[][] result = new int[ans.size()][2];
+        for (int i = 0; i < ans.size(); i++) {
+            result[i][0] = ans.get(i).first;
+            result[i][1] = ans.get(i).second;
+        }
+
+        return result;
+    }
+}
