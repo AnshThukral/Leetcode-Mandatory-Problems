@@ -1,0 +1,30 @@
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ArrayList<ListNode> arr = new ArrayList<>();
+
+        while(head!=null){
+            if(arr.contains(head)) return true;
+
+            arr.add(head);
+            head=head.next;
+        }
+        return false;
+    }
+} 
+
+Optimal
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast!=null && fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(slow==fast) return true;
+        }
+
+        return false;
+    }
+}
