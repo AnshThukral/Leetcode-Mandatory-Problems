@@ -1,0 +1,21 @@
+class Solution {
+    public int maximumPoints(int arr[][]) {
+        // code here
+        int n = arr.length;
+        int prevRun = arr[0][0];
+        int prevFight = arr[0][1];
+        int prevLearn = arr[0][2];
+        
+        for(int i=1;i<n;i++){
+            int currRun = arr[i][0] + Math.max(prevFight,prevLearn);
+            int currFight = arr[i][1] + Math.max(prevRun,prevLearn);
+            int currLearn = arr[i][2] + Math.max(prevFight,prevRun);
+            
+            prevRun = currRun;
+            prevFight = currFight;
+            prevLearn = currLearn;
+        }
+        
+        return Math.max(prevRun, Math.max(prevFight,prevLearn));
+    }
+}
