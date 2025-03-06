@@ -1,0 +1,62 @@
+class Solution {
+    static int[][][] t;
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        t = new int[n][2][3];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<2;j++){
+                for(int k=0;k<3;k++){
+                    t[i][j][k]=-1;
+                }
+            }
+        }
+        return solve(0,1,2,prices);
+    }
+
+    public int solve(int i,int buy,int cap,int[] prices){
+        int n = prices.length;
+
+        if(i==n) return 0;
+        if(cap==0) return 0;
+
+        if(t[i][buy][cap] != -1) return t[i][buy][cap];
+
+        if(buy==1){
+            t[i][buy][cap] = Math.max(-prices[i] + solve(i+1,0,cap,prices), 0 + solve(i+1,1,cap,prices));
+        }else{
+            t[i][buy][cap] = Math.max(prices[i] + solve(i+1,1,cap-1,prices), 0 + solve(i+1,0,cap,prices));
+        }
+
+        return t[i][buy][cap];
+    }
+}
+
+class Solution {
+    static int[][] t;
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        t = new int[n][4];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<4;j++){
+                t[i][j]=-1;
+            }
+        }
+        return solve(0,0,prices);
+    }
+
+    public int solve(int i,int trans,int[] prices){
+        int n = prices.length;
+
+        if(i==n || trans==4) return 0;
+
+        if(t[i][trans] != -1) return t[i][trans];
+
+        if(trans%2==0){
+            t[i][trans] = Math.max(-prices[i] + solve(i+1,trans+1,prices), 0 + solve(i+1,trans,prices));
+        }else{
+            t[i][trans] = Math.max(prices[i] + solve(i+1,trans+1,prices), 0 + solve(i+1,trans,prices));
+        }
+
+        return t[i][trans];
+    }
+}
