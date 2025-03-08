@@ -1,0 +1,25 @@
+class Solution {
+    public int knightDialer(int n) {
+        int mod = 1000000007;
+        int num = 10;
+        int[][] moves = {{4,6},{6,8},{7,9},{8,4},{3,9,0},{},{7,1,0},{2,6},{3,1},{2,4}};
+        int[][] dp = new int[n][num];
+        Arrays.fill(dp[0],1);
+
+        for(int i=1;i<n;i++){
+            for(int j=0;j<10;j++){
+                for(int next : moves[j]){
+                    dp[i][j] = (dp[i][j] + dp[i-1][next]) %mod;
+                }
+            }
+        }
+
+        int res = 0;
+        for(int count: dp[n-1]){
+            res = (res+count)%mod;
+        }
+
+        return res;
+        
+    }
+}
