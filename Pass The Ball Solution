@@ -1,0 +1,59 @@
+A group of N players are playing a game, in this game, a player needs to pass the ball to another player A player P holds the ball at the beginning of the game. A maximum of X moves are allowed while passing the ball such that it ends up with the same player who started the game. Given below is the condition that must be followed by all the players while passing the ball:
+• A player K1 can pass the ball to another player K2 if K1 divides K2 or if K2 divides K1.
+Your task is to find and return integer value representing the number of possible ways to complete the game.
+
+Note: A game is considered as "complete" if the ball ends up with the player
+who started it.
+Input Specification:
+input1: An integer value N, representing the number of
+players,
+input2: An integer value P, representing the player who starts
+the game.
+input3: An integer value X, representing the maximum number of moves allowed to pass the ball.
+Output Specification:
+Return an integer value representing the number of possible ways to complete the game.
+nput1: 3
+input2: 2
+input3: 4
+
+Output: 3
+Explanation:
+There are 3 players in the game and initially, the 2nd player has
+the ball.
+There is a maximum of 4 moves allowed, so the game can be completed in the following ways:
+• 2->1->2
+2->1->3->1->2
+2->1->2->1->2
+Therefore, 3 is returned as the output
+
+
+
+class Main {
+    public static void main(String[] args) {
+        int n=3;
+        int p=2;
+        int x=4;
+        
+        int[][][] dp = new int[n+1][x+1][n+1];
+        dp[p][0][p]=1;
+        
+        for(int i=1;i<=x;i++){
+            for(int j=1;j<=n;j++){
+                for(int k=1;k<=n;k++){
+                    if((j%k==0 || k%j==0 ) && j!=k){
+                        for(int s=1;s<=n;s++){
+                            dp[s][i][k] += dp[s][i-1][j]; 
+                        }
+                    }
+                }
+            }
+        }
+        
+        int ways = 0;
+        for(int i=1;i<=x;i++){
+            ways += dp[p][i][p];
+        }
+        
+        System.out.println(ways);
+    }
+}
