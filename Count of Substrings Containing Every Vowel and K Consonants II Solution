@@ -1,0 +1,73 @@
+class Solution {
+    public long countOfSubstrings(String word, int k) {
+        int n = word.length();
+        if(k>n) return 0;
+
+        //sc O(n)
+        int[] nextC = new int[n];
+        int constInd = n;
+
+        //PreProcessing to be able to find index of just next consonant
+        //tc O(n)
+        for(int i=n-1;i>=0;i--){
+            char ch = word.charAt(i);
+            nextC[i]=constInd;
+            if(!isVowel(ch)){
+                constInd = i;
+            }
+        }
+
+        //sc O(5)
+        HashMap<Character,Integer> map = new HashMap<>();
+        int consonants = 0;
+
+        int i=0;
+        int j=0;
+
+        long res = 0;
+
+        //tc O(2*n) ~ O(n)
+        while(j<n){
+            char c = word.charAt(j);
+            if(isVowel(c)){
+                map.put(c,map.getOrDefault(c,0)+1);
+            }else{
+                consonants++;
+            }
+
+            //consonants must be equal to k
+            while(consonants>k){
+                char chr = word.charAt(i);
+                if(isVowel(chr)){
+                    map.put(chr,map.get(chr)-1);
+                    if(map.get(chr)==0) map.remove(chr);
+                }else{
+                    consonants--;
+                }
+                i++;
+            }
+
+            while(map.size()==5 && consonants==k){ //valid window
+                int idx = nextC[j]; //tells me the next consonant after j index
+                res = res + (idx-j); //most imp part
+                char chr = word.charAt(i);
+                if(isVowel(chr)){
+                    map.put(chr,map.get(chr)-1);
+                    if(map.get(chr)==0) map.remove(chr);
+                }else{
+                    consonants--;
+                }
+                i++;
+            }
+
+            j++;
+        }
+
+        return res;
+    }
+
+    public boolean isVowel(char c){
+        if(c=='a'||c=='e'||c=='i'||c=='o'||c=='u') return true;
+        return false;
+    }
+}
