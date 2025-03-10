@@ -1,0 +1,46 @@
+class Solution {
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = heights.length;
+        int m = heights[0].length;
+
+        boolean[][] pacific = new boolean[n][m];
+        boolean[][] atlantic = new boolean[n][m];
+
+        for(int i=0;i<n;i++) dfs(i,0,heights,pacific,Integer.MIN_VALUE);
+        for(int i=0;i<m;i++) dfs(0,i,heights,pacific,Integer.MIN_VALUE);
+
+        for(int i=0;i<n;i++) dfs(i,m-1,heights,atlantic,Integer.MIN_VALUE);
+        for(int i=0;i<m;i++) dfs(n-1,i,heights,atlantic,Integer.MIN_VALUE);
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(pacific[i][j]==true && atlantic[i][j]==true){
+                    ans.add(Arrays.asList(i,j));
+                }
+            }
+        }
+
+        return ans;
+    }
+
+    public void dfs(int row,int col,int[][] heights,boolean[][] visited,int prev){
+        int n = heights.length;
+        int m = heights[0].length;
+
+        if(row<0 || row>=n || col<0 || col>=m || heights[row][col]<prev || visited[row][col]){
+            return;
+        }
+
+        visited[row][col]=true;
+        int[] delRow = {-1,0,1,0};
+        int[] delCol = {0,1,0,-1};
+
+        for(int i=0;i<4;i++){
+            int nRow = row + delRow[i];
+            int nCol = col + delCol[i];
+
+            dfs(nRow,nCol,heights,visited,heights[row][col]);
+        }
+    }
+}
