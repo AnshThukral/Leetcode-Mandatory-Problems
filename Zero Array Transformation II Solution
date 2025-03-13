@@ -1,0 +1,53 @@
+class Solution {
+    public int minZeroArray(int[] nums, int[][] queries) {
+        int n = queries.length;
+
+        int count = 0;
+        for(int num:nums){
+            if(num!=0) count++;
+        }
+
+        if(count==0) return 0;
+
+        int low = 0;
+        int high = n-1;
+
+        int ans = -1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (solve(nums, queries, mid+1)) {
+                ans = mid+1;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+
+    public boolean solve(int[] nums, int[][] queries, int k) {
+        int len = nums.length;
+        int[] diff = new int[len + 1];
+
+        for (int i = 0; i < k; i++) {
+            int l = queries[i][0];
+            int r = queries[i][1];
+            int val = queries[i][2];
+
+            diff[l] += val;
+            diff[r + 1] -= val;
+        }
+
+        for(int i=1;i<len;i++){
+            diff[i]=diff[i-1]+diff[i];
+        }
+
+        for(int i=0;i<len;i++){
+            if(diff[i]<nums[i]) return false;
+        }
+
+        return true;
+    }
+}
