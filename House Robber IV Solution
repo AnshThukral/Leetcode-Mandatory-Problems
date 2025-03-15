@@ -1,0 +1,46 @@
+class Solution {
+    public int minCapability(int[] nums, int k) {
+        int n = nums.length;
+
+        int low = Integer.MAX_VALUE;
+        int high = Integer.MIN_VALUE;
+
+        for(int num: nums){
+            low = Math.min(low,num);
+            high = Math.max(high,num);
+        }
+
+        int res = Integer.MAX_VALUE;
+
+        while(low<=high){
+            int mid = low + (high-low)/2;
+
+            if(isPossible(nums,mid,k)){
+                res = mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }
+
+        return res;
+    }
+
+    public boolean isPossible(int[] nums,int cap,int k){
+        int n = nums.length;
+        int count = 0;
+        int i=0;
+        while(i<n){
+            if(nums[i]<=cap){
+                count++;
+                i+=2;
+            }else{
+                i++;
+            }
+
+            if(count>=k) return true;
+        }
+
+        return false;
+    }
+}
