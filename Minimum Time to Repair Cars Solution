@@ -1,0 +1,41 @@
+class Solution {
+    public long repairCars(int[] ranks, int cars) {
+        int n = ranks.length;
+        Arrays.sort(ranks);
+
+        int small = ranks[0];
+        int big = ranks[n-1];
+
+        long low = 1;
+        long high = (long)1e14;
+
+        long res = Integer.MAX_VALUE;
+
+        while(low<=high){
+            long mid = low + (high-low)/2;
+
+            if(isPossible(ranks,cars,mid)){
+                res = mid;
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+
+        return res;
+    }
+
+    public boolean isPossible(int[] ranks,int cars,long ans){
+        int n = ranks.length;
+        long count = 0;
+
+        for(int i=0;i<n;i++){
+            long no = ans / ranks[i];
+            long num = (long)Math.sqrt(no);
+            count = count + num;
+
+            if(count>=cars) return true;
+        }
+        return false;
+    }
+}
