@@ -1,0 +1,166 @@
+You are given a numerical value in the form of a string. Your task is to round this number to the nearest multiple of 10.
+If there are multiple neaarest values, return the smaller one.(no negative numbers or decimals). Return String.
+
+Example: "27"
+Output: "30"
+Explanation: 27 has two nearer multiples 20 and 30, 27 is close to 30 so return 30
+
+Example: "15"
+ans: "10"
+Explanation: there multiple options such as 10 and 20, both are qualy close so return the smaller one
+
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        String a = "27";
+        int num = Integer.parseInt(a);
+        
+        int low = (num/10)*10;
+        int high = ((num+9)/10)*10;
+        
+        if(Math.abs(num-low)<=Math.abs(num-high)){
+            System.out.println(low);
+        }else{
+            System.out.println(high);
+        }
+    }
+}
+
+
+Amazon Alexa Music Recommendation -
+The Amazon Alexa team is working on improving its music recommendation system. The system represents user song preferences as a binary tree, where each node contains a unique song ID. However, the songs at each level of the tree are not in a proper manner so that we can recommend them to the user.
+
+Your task is to determine the minimum number of swaps required to sort the song IDs at each level in ascending order. You need to return the total number of swaps required for the entire tree.
+
+Example:
+5
+/ \
+8 3
+/ \ / \
+10 2 7 6
+
+Levels and Swaps Needed:
+
+Level 0: [5] (Already sorted, swaps = 0)
+Level 1: [3, 8] (not sorted, swaps = 1)
+Level 2: [10, 2, 7, 6] → not Sorted (Swaps = 2)
+
+total swaps needed: 3
+
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+        left = right = null;
+    }
+}
+
+public class MusicRecommendation {
+    
+    // Helper method to perform level order traversal
+    public static List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> levels = new ArrayList<>();
+        if (root == null) {
+            return levels;
+        }
+        
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            List<Integer> level = new ArrayList<>();
+            
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = queue.poll();
+                level.add(node.val);
+                
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+            
+            levels.add(level);
+        }
+        
+        return levels;
+    }
+    
+    // Helper method to calculate the minimum swaps needed to sort an array
+    public static int minSwapsToSort(List<Integer> arr) {
+        int n = arr.size();
+        
+        // Create a pair of (value, original index)
+        Pair[] arrWithIndices = new Pair[n];
+        for (int i = 0; i < n; i++) {
+            arrWithIndices[i] = new Pair(arr.get(i), i);
+        }
+        
+        // Sort the array based on the value
+        Arrays.sort(arrWithIndices, (a, b) -> a.value - b.value);
+        
+        // To keep track of visited elements
+        boolean[] visited = new boolean[n];
+        int swaps = 0;
+        
+        for (int i = 0; i < n; i++) {
+            // If already visited or already in the correct position
+            if (visited[i] || arrWithIndices[i].index == i) {
+                continue;
+            }
+            
+            // Find the number of nodes in this cycle
+            int cycleSize = 0;
+            int j = i;
+            while (!visited[j]) {
+                visited[j] = true;
+                j = arrWithIndices[j].index;
+                cycleSize++;
+            }
+            
+            // If there is a cycle of 'n' nodes, it takes (n-1) swaps to sort it
+            if (cycleSize > 1) {
+                swaps += (cycleSize - 1);
+            }
+        }
+        
+        return swaps;
+    }
+    
+    // Main function to calculate total swaps for all levels
+    public static int totalSwaps(TreeNode root) {
+        List<List<Integer>> levels = levelOrder(root);
+        int totalSwaps = 0;
+        
+        for (List<Integer> level : levels) {
+            totalSwaps += minSwapsToSort(level);
+        }
+        
+        return totalSwaps;
+    }
+
+    public static void main(String[] args) {
+        // Sample tree construction
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(8);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(10);
+        root.left.right = new TreeNode(2);
+        root.right.left = new TreeNode(7);
+        root.right.right = new TreeNode(6);
+        
+        // Calculate total swaps required
+        int result = totalSwaps(root);
+        System.out.println("Total swaps needed: " + result);  // Output: 3
+    }
+}
+
+class Pair {
+    int value, index;
+    Pair(int value, int index) {
+        this.value = value;
+        this.index = index;
+    }
+}
