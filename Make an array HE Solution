@@ -1,0 +1,15 @@
+static int solve(int N, int[] A) {
+        long sum = 0;
+        long max = 0;
+
+        for(int n: A){
+            sum += n;
+            max = Math.max(max,n);
+        }
+
+        if(sum%(N-1)==0 && max <= sum/(N-1)){
+            return (int) (sum / (N-1));
+        }else{
+            return -1;
+        }
+    
