@@ -1,0 +1,64 @@
+class Solution {
+
+    static int[] parent;
+
+    int find(int x){
+        if(parent[x]==x) return x;
+
+        return parent[x] = find(parent[x]);
+    }
+
+    void union(int x,int y){
+        parent[y]=x;
+    }
+
+    public int[] minimumCost(int n, int[][] edges, int[][] query) {
+        parent = new int[n];
+        int[] cost = new int[n];
+
+        for(int i=0;i<n;i++){
+            parent[i]=i;
+            cost[i]=-1;
+        }
+
+        for(int[] edge:edges){
+            int u = edge[0];
+            int v = edge[1];
+            int w = edge[2];
+
+            int parentU = find(u);
+            int parentV = find(v);
+
+            if(parentU != parentV){
+                union(parentU,parentV);
+
+                cost[parentU] &= cost[parentV];
+            }
+
+            cost[parentU] &= w;
+        }
+
+        int size = query.length;
+
+        int[] ans = new int[size];
+        int k = 0;
+
+        for(int[] q: query){
+            int s = q[0];
+            int d = q[1];
+
+            int parentS = find(s);
+            int parentD = find(d);
+
+            if(s==d){
+                ans[k++]=0;
+            }else if(parentS != parentD){
+                ans[k++]=-1;
+            }else{
+                ans[k++]=cost[parentS];
+            }
+        }
+
+        return ans;
+    }
+}
