@@ -1,0 +1,15 @@
+class Solution {
+    public int maxScore(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        long score = 0;
+
+        for(int i=0;i<n;i++){
+            score += nums[n-i-1];
+
+            if(score<=0) return i;
+        }
+
+        return n;
+    }
+}
