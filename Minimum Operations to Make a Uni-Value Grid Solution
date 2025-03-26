@@ -1,0 +1,29 @@
+class Solution {
+    public int minOperations(int[][] grid, int x) {
+        List<Integer> arr = new ArrayList<>();
+
+        for(int[] edge: grid){
+            for(int ele:edge){
+                arr.add(ele);
+            }
+        }
+
+        Collections.sort(arr);
+
+        int rem = arr.get(0)%x;
+
+        for(int num: arr){
+            if(num%x != rem) return -1;
+        }
+
+        int med = arr.get(arr.size()/2);
+
+        int op = 0;
+
+        for(int no:arr){
+            op += Math.abs(no-med)/x;
+        }
+
+        return op;
+    }
+}
