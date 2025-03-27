@@ -1,0 +1,41 @@
+class Solution {
+    public int minimumIndex(List<Integer> nums) {
+        int n = nums.size();
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        for(int num:nums){
+            map.put(num,map.getOrDefault(num,0)+1);
+        }
+
+        int dominant = -1;
+        int total = 0;
+
+        for(Map.Entry<Integer,Integer> ele: map.entrySet()){
+            if(ele.getValue()>total){
+                dominant = ele.getKey();
+                total = ele.getValue();
+            }
+        }
+
+        if(dominant==-1) return -1;
+
+        int leftCount = 0;
+        int rightCount = total;
+
+        for(int i=0;i<n-1;i++){
+            if(nums.get(i)==dominant){
+                leftCount++;
+                rightCount--;
+            }
+
+            int leftSize = i+1;
+            int rightSize = n-leftSize;
+
+            if(leftCount * 2 > leftSize && rightCount * 2 > rightSize){
+                return i;
+            }
+        }
+
+        return -1;
+    }
+}
