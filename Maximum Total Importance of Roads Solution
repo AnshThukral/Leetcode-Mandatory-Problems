@@ -1,0 +1,28 @@
+class Solution {
+    public long maximumImportance(int n, int[][] roads) {
+        int[] inDeg = new int[n];
+        for(int[] road: roads){
+            inDeg[road[0]]++;
+            inDeg[road[1]]++;
+        }
+
+        Integer[] cities = new Integer[n];
+        for(int i=0;i<n;i++){
+            cities[i]=i;
+        }
+
+        Arrays.sort(cities, (a,b)->Integer.compare(inDeg[b],inDeg[a]));
+
+        int[] val = new int[n];
+        int ass = n;
+        for(int city:cities){
+            val[city]=ass--;
+        }
+
+        long total = 0;
+        for(int[] road:roads){
+            total += val[road[0]] + val[road[1]];
+        }
+        return total;
+    }
+}
