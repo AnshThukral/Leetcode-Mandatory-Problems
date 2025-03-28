@@ -1,0 +1,65 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    /*
+     * Complete the 'isValid' function below.
+     *
+     * The function is expected to return a STRING.
+     * The function accepts STRING s as parameter.
+     */
+
+    public static String isValid(String s) {
+    // Write your code here
+    HashMap<Character,Integer> map = new HashMap<>();
+    for(char ch: s.toCharArray()){
+        map.put(ch,map.getOrDefault(ch, 0)+1);
+    }
+    
+    HashMap<Integer,Integer> freq = new HashMap<>();
+    for(int fre: map.values()){
+        freq.put(fre,freq.getOrDefault(fre, 0)+1);
+    }
+    
+    if(freq.size()==1) return "YES";
+    if(freq.size()>2) return "NO";
+    
+    ArrayList<Integer> list = new ArrayList<>(freq.keySet());
+    int f1 = list.get(0);
+    int f2 = list.get(1);
+    
+    if((freq.get(f1)==1 && (f1==1 || Math.abs(f1-f2)==1)) || (freq.get(f2)==1) && (f2==1 || Math.abs(f1-f2)==1)){
+        return "YES";
+    }
+    
+    return "NO";
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = bufferedReader.readLine();
+
+        String result = Result.isValid(s);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
