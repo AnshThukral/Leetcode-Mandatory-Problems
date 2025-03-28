@@ -1,0 +1,64 @@
+class Solution {
+    static class Tuple{
+        int first,second,third;
+        Tuple(int first,int second,int third){
+            this.first=first;
+            this.second=second;
+            this.third=third;
+        }
+    }
+    public int[] maxPoints(int[][] grid, int[] queries) {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        int size = queries.length;
+        int[][] expandQuery = new int[size][2];
+        for(int i=0;i<size;i++){
+            expandQuery[i][0] = queries[i];
+            expandQuery[i][1] = i;
+        }
+
+        int[] ans = new int[size];
+
+        Arrays.sort(expandQuery,Comparator.comparingInt(a->a[0]));
+
+        PriorityQueue<Tuple> q = new PriorityQueue<>(Comparator.comparingInt(a->a.first));
+
+        boolean[][] vis = new boolean[n][m];
+        q.offer(new Tuple(grid[0][0],0,0));
+        vis[0][0]=true;
+
+        int points = 0;
+
+        for(int[] query: expandQuery){
+            int val = query[0];
+            int ind = query[1];
+
+            while(!q.isEmpty() && q.peek().first<val){
+                Tuple node = q.poll();
+                int value = node.first;
+                int row = node.second;
+                int col = node.third;
+
+                points++;
+
+                int[] delRow = {-1,0,1,0};
+                int[] delCol = {0,1,0,-1};
+
+                for(int i=0;i<4;i++){
+                    int newRow = row + delRow[i];
+                    int newCol = col + delCol[i];
+
+                    if(newRow>=0 && newRow<n && newCol>=0 && newCol<m && vis[newRow][newCol]==false){
+                        q.offer(new Tuple(grid[newRow][newCol],newRow,newCol));
+                        vis[newRow][newCol]=true;
+                    }
+                }
+            }
+
+            ans[ind] = points;
+        }
+
+        return ans;
+    }
+}
