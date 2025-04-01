@@ -1,0 +1,24 @@
+class Solution {
+    static long[] t;
+    public long mostPoints(int[][] questions) {
+        int n = questions.length;
+        t = new long[n+1];
+        Arrays.fill(t,-1);
+        return solve(questions,n,0);
+    }
+
+    public long solve(int[][] arr,int n,int ind){
+        if(ind>=n) return 0;
+
+        if(t[ind]!=-1) return t[ind];
+
+        long notTake = solve(arr,n,ind+1);
+
+        long val = arr[ind][0];
+        int skipIndice = arr[ind][1];
+
+        long take = val + solve(arr,n,ind+1+skipIndice);
+
+        return t[ind] = Math.max(notTake,take);
+    }
+}
