@@ -1,0 +1,28 @@
+class Solution {
+    Boolean[] t;
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int n = s.length();
+        t = new Boolean[n+1];
+        Arrays.fill(t,null);
+        return solve(s,wordDict,0,n);
+    }
+
+    public boolean solve(String s,List<String> wordDict,int ind,int n){
+        if(ind==n) return true;
+
+        if(t[ind]!=null) return t[ind];
+
+        for(int i=0;i<wordDict.size();i++){
+            String str = wordDict.get(i);
+            int num = str.length();
+
+            if(ind+num<=n && s.substring(ind,ind+num).equals(str)){
+                if(solve(s,wordDict,ind+num,n)){
+                    return t[ind]=true;
+                }
+            }
+        }
+
+        return t[ind]=false;
+    }
+}
