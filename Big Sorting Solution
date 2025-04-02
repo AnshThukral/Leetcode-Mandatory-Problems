@@ -1,0 +1,11 @@
+public static List<String> bigSorting(List<String> unsorted) {
+    // Write your code here
+    unsorted.sort((a,b)->{
+        if(a.length()==b.length()){
+            return a.compareTo(b);
+        }
+        return Integer.compare(a.length(), b.length());
+    });
+    return unsorted;
+
+    }
