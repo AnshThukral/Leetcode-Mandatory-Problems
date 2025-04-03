@@ -1,0 +1,37 @@
+class Solution {
+    public long maximumTripletValue(int[] nums) {
+        int n = nums.length;
+        long[] maxL = new long[n];
+        long[] maxR = new long[n];
+
+
+        for(int i=1;i<n;i++){
+            maxL[i]=Math.max(maxL[i-1],nums[i-1]);
+        }
+        for(int i=n-2;i>=0;i--){
+            maxR[i]=Math.max(maxR[i+1],nums[i+1]);
+        }
+
+        long maxi = 0;
+
+        for(int i=0;i<n;i++){
+            maxi = Math.max(maxi,(maxL[i]-nums[i])*maxR[i]);
+        }
+
+        return maxi;
+    }
+}
+
+class Solution {
+    public long maximumTripletValue(int[] nums) {
+        long maxProduct=0;
+        int maxDiff=0;
+        int maxNum=0;
+        for(int num: nums){
+            maxProduct = Math.max(maxProduct, (long)maxDiff*num);
+            maxNum = Math.max(maxNum, num);
+            maxDiff = Math.max(maxDiff, maxNum-num);
+        }
+        return maxProduct>0?maxProduct:0;
+    }
+}
