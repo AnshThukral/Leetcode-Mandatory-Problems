@@ -1,0 +1,18 @@
+public static List<Integer> rotateLeft(int d, List<Integer> arr) {
+    // Write your code here
+    int size = arr.size();
+    reverse(arr,0,d-1);
+    reverse(arr,d,size-1);
+    reverse(arr,0,size-1);
+    return arr;
+    }
+    
+    public static void reverse(List<Integer> arr,int left,int right){
+        while(left<right){
+            int temp = arr.get(left);
+            arr.set(left,arr.get(right));
+            arr.set(right,temp);
+            left++;
+            right--;
+        }
+    }
