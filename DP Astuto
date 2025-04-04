@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class Main {
+    static Boolean[] dp;
+
+    public static void main(String[] args) {
+        int n = 4;
+        int A = 2;
+        int B = 1;
+        dp = new Boolean[n + 1];
+
+        int count = 0;
+        for (int i = 1; i <= n; i++) {
+            if (isPossible(i, A, B)) count++;
+        }
+
+        System.out.println(count);
+    }
+
+    public static boolean isPossible(int val, int A, int B) {
+        if (val == 0) return true;
+        if (val < 0) return false;
+        if (dp[val] != null) return dp[val];
+
+        boolean takeA = isPossible(val - A, A, B);
+        boolean takeB = isPossible(val - B, A, B);
+        boolean takeBoth = isPossible(val - (A + B), A, B);
+
+        return dp[val] = takeA || takeB || takeBoth;
+    }
+}
