@@ -1,0 +1,43 @@
+Given a string s consisting of digits only then you can do only one operation any number of time in which you remove digit at any index let say i then you can insert any digit between min(s[i]+1, 9) anywhere in the remaining string.
+So now your task is to find the lexiographically minimal string possible
+Ex1: input = "26547" output = "24677"
+Ex2: input = "34892" output = "24599"
+
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        String str = "26547";
+        
+        StringBuilder res = new StringBuilder();
+        List<Integer> added = new ArrayList<>();
+        
+        for(char ch: str.toCharArray()){
+            
+            while(res.length()>0 && res.charAt(res.length()-1)>ch){
+                int ele = res.charAt(res.length()-1)-'0';
+                res.deleteCharAt(res.length()-1);
+                int min = Math.min(ele+1,9);
+                added.add(min);
+            }
+            res.append(ch);
+        }
+        
+        List<Integer> fin = new ArrayList<>();
+        for(int i=0;i<res.length();i++){
+            fin.add(res.charAt(i)-'0');
+        }
+        
+        for(int el: added){
+            fin.add(el);
+        }
+        
+        Collections.sort(fin);
+        StringBuilder ans = new StringBuilder();
+        for(int e: fin){
+            ans.append((char)(e+'0'));
+        }
+        
+        System.out.println(ans.toString());
+    }
+}
