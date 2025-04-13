@@ -1,0 +1,21 @@
+class Solution {
+    static int MOD = 1000000007;
+    public int countGoodNumbers(long n) {
+        long even = (n+1)/2;
+        long val1 = solve(5,even);
+        long odd = n/2;
+        long val2 = solve(4,odd);
+
+        return (int) ((val1*val2)%MOD);
+    }
+
+    public long solve(long a,long b){
+        if(b==0) return 1;
+        long half = solve(a,b/2);
+        long res = (half*half)%MOD;
+        if(b%2==1){
+            res = (res*a)%MOD;
+        }
+        return res;
+    }
+}
