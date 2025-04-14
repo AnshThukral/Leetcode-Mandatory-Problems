@@ -1,0 +1,38 @@
+class Solution {
+    double fractionalKnapsack(int[] values, int[] weights, int W) {
+        // code here
+        int n = values.length;
+        int[][] arr = new int[n][2];
+        
+        for(int i=0;i<n;i++){
+            arr[i][0]=weights[i];
+            arr[i][1]=values[i];
+        }
+        
+        Arrays.sort(arr, (a, b) -> {
+           double r1 = (double) b[1]/b[0];
+           double r2 = (double) a[1]/a[0];
+           
+           return Double.compare(r1,r2);
+        });
+        double val = 0;
+        
+        for(int i=0;i<n;i++){
+            int currWeight = arr[i][0];
+            int currVal = arr[i][1];
+            
+            if(W==0) break;
+            
+            if(currWeight<=W){
+                val+=currVal;
+                W = W - currWeight;
+            }else{
+                double res = ((double)currVal/currWeight)*W;
+                val+=res;
+                W = 0;
+            }
+        }
+        
+        return val;
+    }
+}
