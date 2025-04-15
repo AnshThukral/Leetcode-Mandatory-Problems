@@ -1,0 +1,60 @@
+class Solution {
+    public int numMatchingSubseq(String s, String[] words) {
+        HashMap<Character,List<Integer>> map = new HashMap<>();
+
+        int n = s.length();
+
+        for(int i=0;i<n;i++){
+            char ch = s.charAt(i);
+            if(!map.containsKey(ch)){
+                map.put(ch,new ArrayList<>());
+            }
+
+            map.get(ch).add(i);
+        }
+
+        int c = 0;
+
+        for(String word: words){
+            if(isPossible(word,map)) c++;
+        }
+
+        return c;
+    }
+
+    public boolean isPossible(String word,HashMap<Character,List<Integer>> map){
+        int prev = -1;
+
+        for(int i=0;i<word.length();i++){
+            char ch = word.charAt(i);
+            if(!map.containsKey(ch)) return false;
+
+            List<Integer> li = map.get(ch);
+            int nextIndex = binarySearch(li,prev);
+
+            if(nextIndex==-1) return false;
+
+            prev=li.get(nextIndex);
+        }
+
+        return true;
+    }
+
+    public int binarySearch(List<Integer> li,int prev){
+        int low=0;
+        int high=li.size()-1;
+        int res = -1;
+
+        while(low<=high){
+            int mid = low + (high-low)/2;
+
+            if(li.get(mid)>prev){
+                res = mid;
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+        return res;
+    }
+}
