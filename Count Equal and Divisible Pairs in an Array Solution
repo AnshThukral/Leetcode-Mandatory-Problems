@@ -1,0 +1,68 @@
+
+O(N^2)
+class Solution {
+    public int countPairs(int[] nums, int k) {
+        int n = nums.length;
+        int c = 0;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if((i*j)%k==0 && nums[i]==nums[j] && i!=j){
+                    c++;
+                }
+            }
+        }
+        return c;
+    }
+}
+
+
+
+O(N*sqrt(k)) OPTIMAL
+class Solution {
+    public int countPairs(int[] nums, int k) {
+        int n = nums.length;
+        int res = 0;
+
+        HashMap<Integer,List<Integer>> map = new HashMap<>();
+
+        for(int i=0;i<n;i++){
+            if(!map.containsKey(nums[i])){
+                map.put(nums[i],new ArrayList<>());
+            }
+            map.get(nums[i]).add(i);
+        }
+
+        //Calc divisors of k
+        //k=36 (1,2,3,4,6)
+        HashSet<Integer> set = new HashSet<>();
+        for(int f=1;f*f<=k;f++){
+            if(k%f==0){
+                set.add(f); // But we r missing 12,18,36
+                set.add(k/f); // why set because 36/6=6 but we already stored 6 remove duplicates
+            }
+        }
+
+        for(List<Integer> ind: map.values()){
+            HashMap<Integer,Integer> factors = new HashMap<>();
+            for(int i:ind){
+                int GCD = gcd(i,k);
+                int j = k/GCD;
+
+                res += factors.getOrDefault(j,0);
+
+                for(int f: set){
+                    if(i%f==0){
+                        factors.put(f,factors.getOrDefault(f,0)+1);
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+    public int gcd(int a,int b){
+        if(b==0) return a;
+        return gcd(b,a%b);
+    }
+}
