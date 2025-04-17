@@ -1,0 +1,24 @@
+class Solution {
+    public int numberOfPairs(int[][] points) {
+        int n = points.length;
+        Arrays.sort(points,(a,b)->(a[0]!=b[0])?a[0]-b[0]:b[1]-a[1]);
+
+        int res = 0;
+
+        for(int i=0;i<n;i++){
+            int min = Integer.MAX_VALUE;
+            for(int j=i+1;j<n;j++){
+                if(points[j][1]<=points[i][1]){
+                    if(min==Integer.MAX_VALUE){
+                        res++;
+                        min = points[j][1];
+                    }else if(points[j][1]>min){
+                        res++;
+                        min = Math.max(min,points[j][1]);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+}
