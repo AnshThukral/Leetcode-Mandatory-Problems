@@ -1,0 +1,21 @@
+class Solution {
+    public int numRabbits(int[] answers) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        for(int ele: answers){
+            map.put(ele,map.getOrDefault(ele,0)+1);
+        }
+
+        int res = 0;
+        for(Map.Entry<Integer,Integer> ele: map.entrySet()){
+            int x = ele.getKey();
+            int groupSize = x+1;
+            int count = ele.getValue();
+
+            int groups = (int)Math.ceil((double)count/groupSize);
+
+            res += groups*groupSize;
+        }
+        return res;
+    }
+}
