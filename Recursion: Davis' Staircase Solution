@@ -1,0 +1,38 @@
+class Result {
+
+    /*
+     * Complete the 'stepPerms' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts INTEGER n as parameter.
+     */
+     static int[] t;
+    public static int stepPerms(int n) {
+    // Write your code here
+    t = new int[n+1];
+    Arrays.fill(t,-1);
+    
+    return solve(n);
+
+    }
+    
+    public static int solve(int n){
+        if(n==0){
+            return 1;
+        }
+        
+        if(t[n]!=-1) return t[n];
+        
+        int[] arr = {1,2,3};
+        int res = 0;
+        
+        for(int ele: arr){
+            if(n-ele>=0){
+                res += solve(n-ele);
+            }
+        }
+        
+        return t[n]=res;
+    }
+
+}
