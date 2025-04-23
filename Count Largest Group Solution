@@ -1,0 +1,33 @@
+class Solution {
+    public int countLargestGroup(int n) {
+        int[] arr = new int[n+1];
+
+        for(int i=1;i<=n;i++){
+            int sum = calc(i);
+            arr[sum]++;
+        }
+
+        int max = -1;
+        for(int ele: arr){
+            max = Math.max(max,ele);
+        }
+
+        int count = 0;
+        for(int ele:arr){
+            if(ele==max) count++;
+        }
+
+        return count;
+    }
+
+    public int calc(int n){
+        String val = String.valueOf(n);
+        int res = 0;
+
+        for(char ch: val.toCharArray()){
+            res += ch-'0';
+        }
+
+        return res;
+    }
+}
