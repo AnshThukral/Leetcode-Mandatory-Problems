@@ -1,0 +1,62 @@
+// O(n^3)
+class Solution {
+    public int maxPoints(int[][] points) {
+        int n = points.length;
+
+        if(n==1) return 1;
+
+        int res = 0;
+        for(int i=0;i<n;i++){ // x1,y1
+            for(int j=i+1;j<n;j++){ // x2,y2
+                int count = 2;
+                int dx = points[j][0]-points[i][0];
+                int dy = points[j][1]-points[i][1];
+
+                // dy/dx = dy_/dx_
+                // dy * dx_ = dy_*dx
+
+                for(int k=0;k<n;k++){
+                    if(k!=i && k!=j){
+                        int dx_ = points[k][0]-points[i][0];
+                        int dy_ = points[k][1]-points[i][1];
+
+                        if(dy*dx_ == dy_*dx){
+                            count++;
+                        }
+                    }
+                }
+                res = Math.max(res,count);
+            }
+        }
+        return res;
+    }
+}
+
+//O(n^2)
+
+class Solution {
+    public int maxPoints(int[][] points) {
+        int n = points.length;
+        if(n==1) return 1;
+
+        int res = 0;
+
+        for(int i=0;i<n;i++){ // x1,y1
+            HashMap<Double,Integer> map = new HashMap<>();
+            for(int j=0;j<n;j++){ // x2,y2
+                if(i==j) continue;
+
+                double dy = points[j][1] - points[i][1];
+                double dx = points[j][0] - points[i][0];
+
+                Double theta = Math.atan2(dy,dx);
+                map.put(theta,map.getOrDefault(theta,0)+1);
+            }
+
+            for(Map.Entry<Double,Integer> ele: map.entrySet()){
+                res = Math.max(res,ele.getValue() +1);
+            }
+        }
+        return res;
+    }
+}
