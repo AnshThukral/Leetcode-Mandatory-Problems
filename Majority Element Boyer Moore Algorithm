@@ -1,0 +1,31 @@
+class Solution {
+    public int majorityElement(int[] nums) {
+        int count = 0;
+        int candidate = -1;
+
+        for(int num:nums){
+            if(count==0){
+                candidate = num;
+            }
+
+            count += (num==candidate)?1:-1;
+        }
+        return candidate;
+    }
+}
+
+🤔 Simple Idea:
+Think of it like an election. Each number in the array is a candidate, and each time it appears, it gets a vote.
+
+But we want to be smart and only use 1 variable for the candidate and 1 counter for votes.
+
+The algorithm maintains a candidate and a count.
+
+If count == 0, it assumes the current number as the new candidate.
+
+For every same number, it increments the count.
+
+For every different number, it decrements the count.
+
+If a number appears more than half the time, then even if we cancel it with all the other different numbers, some of it will still be left at the end.
+
