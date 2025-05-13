@@ -1,0 +1,33 @@
+class Solution {
+    public static final int MOD = 1000000007;
+    public int lengthAfterTransformations(String s, int t) {
+        int[] arr = new int[26];
+
+        for(char ch: s.toCharArray()){
+            arr[ch-'a']++;
+        }
+
+        for(int i=0;i<t;i++){
+            int[] temp = new int[26];
+
+            for(int j=0;j<26;j++){
+                int freq = arr[j];
+
+                if(j!=25){
+                    temp[j+1] = (temp[j+1] + freq)%MOD;
+                }else{
+                    temp[0] = (temp[0] + freq)%MOD;
+                    temp[1] = (temp[1] + freq)%MOD;
+                }
+            }
+            arr=temp;
+        }
+
+        int res = 0;
+
+        for(int i=0;i<26;i++){
+            res = (res + arr[i])%MOD;
+        }
+        return res;
+    }
+}
