@@ -1,0 +1,37 @@
+class Solution {
+    // Function to flatten a linked list
+    Node flatten(Node root) {
+        // code here
+        if(root==null) return null;
+        
+        Node head = flatten(root.next);
+        return merge(root,head);
+    }
+    
+    public Node merge(Node root,Node head){
+        Node dummy = new Node(-1);
+        Node curr = dummy;
+        
+        while(root!=null && head!=null){
+            int val1= root.data;
+            int val2 = head.data;
+            
+            if(val1<=val2){
+                curr.bottom = root;
+                root = root.bottom;
+            }else{
+                curr.bottom = head;
+                head = head.bottom;
+            }
+            curr = curr.bottom;
+        }
+        
+        if(root!=null){
+            curr.bottom = root;
+        }
+        if(head!=null){
+            curr.bottom = head;
+        }
+        return dummy.bottom;
+    }
+}
