@@ -1,0 +1,28 @@
+class Solution {
+    public boolean isZeroArray(int[] nums, int[][] queries) {
+        int n = nums.length;
+        int[] diff = new int[n];
+        int[] res = new int[n];
+
+        for(int[] edge: queries){
+            int a = edge[0];
+            int b = edge[1];
+
+            diff[a] = diff[a]+1;
+            if(b+1<n){
+                diff[b+1] = diff[b+1] - 1;
+            }
+        }
+
+        int cumSum = 0;
+        for(int i=0;i<n;i++){
+            cumSum += diff[i];
+            res[i] = cumSum;
+
+            if(res[i]<nums[i]) return false;
+        }
+
+        return true;
+
+    }
+}
