@@ -1,0 +1,27 @@
+class Solution {
+    public int longestEqualSubarray(List<Integer> nums, int k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        int j = 0;
+        int maxFreq = 0;
+        int ans = 0;
+        int sum = 0;
+
+        for (int i = 0; i < nums.size(); i++) {
+            int curr = nums.get(i);
+            freq.put(curr, freq.getOrDefault(curr, 0) + 1);
+            maxFreq = Math.max(maxFreq, freq.get(curr));
+            sum++;
+
+            while (sum - maxFreq > k) {
+                int left = nums.get(j);
+                freq.put(left, freq.get(left) - 1);
+                sum--;
+                j++;
+            }
+
+            ans = Math.max(ans, maxFreq);
+        }
+
+        return ans;
+    }
+}
