@@ -1,0 +1,47 @@
+// User function Template for Java
+
+class Solution {
+    public int kthElement(int a[], int b[], int k) {
+        // code here
+        int n = a.length;
+        int m = b.length;
+        int low = Math.min(a[0], b[0]);
+        int high = Math.max(a[n - 1], b[m - 1]);
+        
+        while(low<=high){
+            int mid = low + (high-low)/2;
+            int count = Equals(a,b,n,m,mid);
+            if(count<k){
+                low=mid+1;
+            }else{
+                high=mid-1;
+            }
+        }
+        return low;
+    }
+    
+    public int Equals(int[] a,int[] b,int n,int m,int x){
+        int cnt = 0;
+        
+        cnt += calc(a,x);
+        cnt += calc(b,x);
+        
+        return cnt;
+    }
+    
+    public int calc(int[] arr, int x){
+    int low = 0, high = arr.length - 1;
+    int ans = 0;
+    while(low <= high){
+        int mid = low + (high - low)/2;
+        if(arr[mid]>x){
+            ans = mid;
+            high = mid-1;
+        }else{
+            low = mid+1;
+        }
+    }
+    return low; // this is the number of elements <= x
+}
+
+}
