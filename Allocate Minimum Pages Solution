@@ -1,0 +1,43 @@
+
+//Back-end complete function Template for Java
+
+class Solution {
+    public static int findPages(int[] arr, int k) {
+        // code here
+        int n = arr.length;
+        if(k>n) return -1;
+        int low = 0;
+        int sum = 0;
+        for(int ele: arr){
+            low = Math.max(ele,low);
+            sum = sum+ele;
+        }
+        
+        while(low<=sum){
+            int mid = low + (sum-low)/2;
+            int count = countS(arr,mid);
+            
+            if(count>k){
+                low = mid+1;
+            }else{
+                sum = mid-1;
+            }
+        }
+        return low;
+    }
+    
+    public static int countS(int[] arr,int pages){
+        int student = 1;
+        int page = 0;
+        
+        for(int i=0;i<arr.length;i++){
+            if(page+arr[i]<=pages){
+                page = page + arr[i];
+            }else{
+                page = arr[i];
+                student++;
+            }
+        }
+        return student;
+    }
+}
