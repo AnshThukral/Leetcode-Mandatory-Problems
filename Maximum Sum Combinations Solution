@@ -1,0 +1,40 @@
+public class Solution {
+    class Pair{
+        int i,j,sum;
+        Pair(int i,int j,int sum){
+            this.i = i;
+            this.j = j;
+            this.sum = sum;
+        }
+    }
+    public ArrayList<Integer> solve(ArrayList<Integer> A, ArrayList<Integer> B, int C) {
+        int n = A.size();
+        ArrayList<Integer> ans = new ArrayList<>();
+        
+        Collections.sort(A,Collections.reverseOrder());
+        Collections.sort(B,Collections.reverseOrder());
+        PriorityQueue<Pair> pq = new PriorityQueue<>((p,q)->q.sum-p.sum);
+        Set<String> visited = new HashSet<>();
+        pq.add(new Pair(0,0,A.get(0)+B.get(0)));
+        visited.add("0-0");
+        
+        while(C-->0){
+            Pair ele = pq.poll();
+            int i = ele.i;
+            int j = ele.j;
+            int sum = ele.sum;
+            ans.add(sum);
+            
+            if(i+1<n && !visited.contains((i+1)+"-"+(j))){
+                pq.add(new Pair(i+1,j,A.get(i+1)+B.get(j)));
+                visited.add((i+1)+"-"+(j));
+            }
+            if(j+1<n && !visited.contains((i)+"-"+(j+1))){
+                pq.add(new Pair(i,j+1,A.get(i)+B.get(j+1)));
+                visited.add((i)+"-"+(j+1));
+            }
+        }
+        
+        return ans;
+    }
+}
