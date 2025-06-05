@@ -1,0 +1,51 @@
+class Solution {
+    public String smallestEquivalentString(String s1, String s2, String baseStr) {
+        int n = s1.length();
+
+        int m = baseStr.length();
+
+        Map<Character,List<Character>> adj = new HashMap<>();
+
+        for(int i=0;i<n;i++){
+            char a = s1.charAt(i);
+            char b = s2.charAt(i);
+
+            if(!adj.containsKey(a)){
+                adj.put(a,new ArrayList<>());
+            }
+            adj.get(a).add(b);
+
+            if(!adj.containsKey(b)){
+                adj.put(b,new ArrayList<>());
+            }
+            adj.get(b).add(a);
+        }
+
+        StringBuilder res = new StringBuilder();
+
+        for(int i=0;i<m;i++){
+            char ch = baseStr.charAt(i);
+            int[] visited = new int[26];
+
+            char minChar = adj.containsKey(ch)?DFSFindMinChar(adj,ch,visited):ch;
+
+            res.append(minChar);
+        }
+
+        return res.toString();
+    }
+
+    public static char DFSFindMinChar(Map<Character,List<Character>> adj,char curr_ch,int[] visited){
+        visited[curr_ch-'a'] = 1;
+
+        char minChar = curr_ch;
+
+        for(char ch: adj.get(curr_ch)){
+            if(visited[ch-'a']==0){
+                char candidate = DFSFindMinChar(adj,ch,visited);
+                minChar =(char) Math.min(minChar,candidate);
+            }
+        }
+        return minChar;
+    }
+}
