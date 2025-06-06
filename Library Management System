@@ -1,0 +1,73 @@
+import java.util.*;
+class Book{
+    String title;
+    String author;
+    boolean isIssued;
+    Book(String title,String author){
+        this.title = title;
+        this.author = author;
+        isIssued = false;
+    }
+}
+
+class Library{
+    ArrayList<Book> books;
+    
+    Library(){
+        books = new ArrayList<>();
+    }
+    
+    void addBook(Book book){
+        books.add(book);
+        System.out.println("Book Added: "+book.title);
+    }
+    
+    void issueBook(String title){
+        for(Book book: books){
+            if(book.title.equals(title)){
+                if(book.isIssued==false){
+                    book.isIssued = true;
+                    System.out.println("Book Issued: "+book.title);
+                    return;
+                }else{
+                    System.out.println("Book Not Available");
+                    return;
+                }
+            }
+        }
+        System.out.println("Book Not Found: "+title);
+    }
+    
+    void returnBook(String title){
+        for(Book book: books){
+            if(book.title.equals(title)){
+                if(book.isIssued==true){
+                    book.isIssued = false;
+                    System.out.println("Book Return: "+book.title);
+                    return;
+                }else{
+                    System.out.println("Book was not issued.");
+                    return;
+                }
+            }
+        }
+        System.out.println("Book Not Found: "+title);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Library library = new Library();
+        
+        library.addBook(new Book("Gulliver","Jonathan Swift"));
+        library.addBook(new Book("Hatim Tai","Ansh"));
+        
+        library.issueBook("Gulliver");
+        library.issueBook("ABCD");
+        library.issueBook("Gulliver");
+        
+        library.returnBook("Gulliver");
+        library.returnBook("Hatim Tai");
+        library.returnBook("AB");
+    }
+}
