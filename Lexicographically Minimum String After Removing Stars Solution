@@ -1,0 +1,35 @@
+class Solution {
+    public String clearStars(String s) {
+        int n = s.length();
+        boolean[] arr = new boolean[n];
+        Arrays.fill(arr,true);
+
+        PriorityQueue<Character> pq = new PriorityQueue<>();
+        Map<Character,Deque<Integer>> map = new HashMap<>();
+
+        for(int i=0;i<n;i++){
+            char ch = s.charAt(i);
+            if(ch=='*'){
+                char min = pq.poll();
+                int ind = map.get(min).removeLast();
+                arr[i]=false;
+                arr[ind]=false;
+            }else{
+                pq.offer(ch);
+                if(!map.containsKey(ch)){
+                    map.put(ch,new ArrayDeque<>());
+                }
+                map.get(ch).add(i);
+            }
+        }
+
+        StringBuilder res = new StringBuilder();
+        for(int i=0;i<n;i++){
+            if(arr[i]==true){
+                res.append(s.charAt(i));
+            }
+        }
+        return res.toString();
+
+    }
+}
