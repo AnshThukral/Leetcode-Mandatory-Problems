@@ -1,0 +1,19 @@
+class Solution {
+    public List<Integer> lexicalOrder(int n) {
+        List<Integer> ans = new ArrayList<>();
+        for(int i=1;i<=9;i++){
+            solve(i,n,ans);
+        }
+        return ans;
+    }
+    public void solve(int curr,int n,List<Integer> ans){
+        if(curr>n) return;
+
+        ans.add(curr);
+        for(int ind=0;ind<=9;ind++){
+            int newNo = curr*10 + ind;
+            if(newNo>n) return;
+            solve(newNo,n,ans);
+        }
+    }
+}
