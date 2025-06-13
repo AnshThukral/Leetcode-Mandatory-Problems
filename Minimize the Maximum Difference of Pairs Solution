@@ -1,0 +1,39 @@
+class Solution {
+    public int minimizeMax(int[] nums, int p) {
+        int n = nums.length;
+        Arrays.sort(nums);
+
+        int left = 0;
+        int right = nums[n-1] - nums[0];
+        int res = Integer.MAX_VALUE;
+
+        while(left<=right){
+            int mid = left + (right-left)/2;
+
+            if(isValid(nums,mid,p)){
+                res = mid;
+                right = mid-1;
+            }else{
+                left = mid+1;
+            }
+        }
+        return res;
+    }
+
+    public boolean isValid(int[] nums,int mid,int p){
+        int i = 0;
+        int n = nums.length;
+        int count = 0;
+
+        while(i<n-1){
+            if(nums[i+1]-nums[i]<=mid){
+                count++;
+                i+=2;
+            }else{
+                i++;
+            }
+        }
+
+        return count>=p;
+    }
+}
