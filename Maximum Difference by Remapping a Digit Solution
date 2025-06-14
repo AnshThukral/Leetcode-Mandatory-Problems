@@ -1,0 +1,52 @@
+class Solution {
+    public int minMaxDifference(int num) {
+        String n = String.valueOf(num);
+
+        int maxi = findMax(n);
+        int min = findMin(n);
+        return maxi - min;
+    }
+
+    public int findMax(String str){
+        char firstNonNine = str.charAt(0);
+        for(char ch: str.toCharArray()){
+            if(ch!='9'){
+                firstNonNine = ch;
+                break;
+            }
+        }
+
+        StringBuilder s = new StringBuilder();
+        for(char ch: str.toCharArray()){
+            if(ch==firstNonNine){
+                s.append('9');
+            }else{
+                s.append(ch);
+            }
+        }
+
+        return Integer.parseInt(s.toString());
+    }
+
+    public int findMin(String str){
+        char firstNonZero = str.charAt(0);
+        for(char ch: str.toCharArray()){
+            if(ch!='0'){
+                firstNonZero = ch;
+                break;
+            }
+        }
+
+        StringBuilder s = new StringBuilder();
+        for(char ch: str.toCharArray()){
+            if(ch==firstNonZero){
+                s.append('0');
+            }else{
+                s.append(ch);
+            }
+        }
+
+        return Integer.parseInt(s.toString());
+    }
+
+}
