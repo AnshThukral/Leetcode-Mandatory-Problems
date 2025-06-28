@@ -1,0 +1,33 @@
+class Solution {
+    static class Pair{
+        int value;
+        int index;
+        Pair(int value,int index){
+            this.value = value;
+            this.index = index;
+        }
+    }
+    public int[] maxSubsequence(int[] nums, int k) {
+        int n = nums.length;
+        List<Pair> list = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            list.add(new Pair(nums[i],i));
+        }
+
+        list.sort((a,b)->Integer.compare(b.value,a.value));
+
+        List<Pair> newList = new ArrayList<>();
+        for(int i=0;i<k;i++){
+            newList.add(list.get(i));
+        }
+
+        newList.sort((a,b)->Integer.compare(a.index,b.index));
+
+        int[] ans = new int[k];
+        for(int i=0;i<k;i++){
+            ans[i] = newList.get(i).value;
+        }
+        return ans;
+    }
+    
+}
