@@ -1,0 +1,32 @@
+class Solution {
+    public char kthCharacter(long k, int[] operations) {
+        int n = operations.length;
+        long[] arr = new long[n+1];
+        arr[0]=1;
+
+        for(int i=1;i<=n;i++){
+            arr[i] = Math.min(arr[i-1]*2,k);
+        }
+
+        int shift = 0;
+        for(int i=n-1;i>=0;i--){
+            long half = arr[i];
+            if(operations[i]==0){
+                if(k>half){
+                    k = k-half;
+                }
+            }else{
+                if(k>half){
+                    k = k-half;
+                    shift++;
+                }
+            }
+        }
+
+        char res = 'a';
+        for(int i=0;i<shift;i++){
+            res = (res=='z')?'a':(char)(res+1);
+        }
+        return res;
+    }
+}
