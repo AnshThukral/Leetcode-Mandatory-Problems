@@ -1,0 +1,25 @@
+class Solution {
+    public int minCost(int[] startPos, int[] homePos, int[] rowCosts, int[] colCosts) {
+        int r = startPos[0];
+        int c = startPos[1];
+        int fr = homePos[0];
+        int fc = homePos[1];
+        int cost = 0;
+
+        while(r!=fr){
+            if(r<fr) r++;
+            else r--;
+
+            cost += rowCosts[r];
+        }
+
+        while(c!=fc){
+            if(c<fc) c++;
+            else c--;
+
+            cost += colCosts[c];
+        }
+        return cost;
+
+    }
+}
