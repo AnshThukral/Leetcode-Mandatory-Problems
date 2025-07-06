@@ -1,0 +1,47 @@
+class FindSumPairs {
+    public int[] arr1;
+    public int[] arr2;
+    HashMap<Integer, Integer> map1;
+    HashMap<Integer, Integer> map2;
+
+    public FindSumPairs(int[] nums1, int[] nums2) {
+        this.arr1 = nums1;
+        this.arr2 = nums2;
+        this.map1 = new HashMap<>();
+        this.map2 = new HashMap<>();
+        for (int ele : arr1) {
+            map1.put(ele, map1.getOrDefault(ele, 0) + 1);
+        }
+        for (int ele : arr2) {
+            map2.put(ele, map2.getOrDefault(ele, 0) + 1);
+        }
+    }
+
+    public void add(int index, int val) {
+        int curr = arr2[index];
+        arr2[index] = arr2[index] + val;
+        map2.put(curr,map2.get(curr)-1);
+        map2.put(arr2[index],map2.getOrDefault(arr2[index],0)+1);
+    }
+
+    public int count(int tot) {
+
+        int ans = 0;
+
+        for (Map.Entry<Integer, Integer> ele : map1.entrySet()) {
+            int left = tot - ele.getKey();
+
+            if (map2.containsKey(left)) {
+                ans = ans + (ele.getValue() * map2.get(left));
+            }
+        }
+        return ans;
+    }
+}
+
+/**
+ * Your FindSumPairs object will be instantiated and called as such:
+ * FindSumPairs obj = new FindSumPairs(nums1, nums2);
+ * obj.add(index,val);
+ * int param_2 = obj.count(tot);
+ */
