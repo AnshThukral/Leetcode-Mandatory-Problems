@@ -1,0 +1,49 @@
+class Solution {
+    static class Pair{
+        int key,value;
+        Pair(int key,int value){
+            this.key = key;
+            this.value = value;
+        }
+    }
+    public int[] rearrangeBarcodes(int[] barcodes) {
+        int n = barcodes.length;
+
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int ele: barcodes){
+            map.put(ele,map.getOrDefault(ele,0)+1);
+        }
+
+        PriorityQueue<Pair> q = new PriorityQueue<>((a,b)->b.value-a.value);
+
+        for(Map.Entry<Integer,Integer> ele: map.entrySet()){
+            q.offer(new Pair(ele.getKey(),ele.getValue()));
+        }
+
+        List<Integer> list = new ArrayList<>();
+        while(q.size()>=2){
+            Pair a = q.poll();
+            Pair b = q.poll();
+
+            list.add(a.key);
+            list.add(b.key);
+
+            if(a.value-1>0){
+                q.offer(new Pair(a.key,a.value-1));
+            }
+            if(b.value-1>0){
+                q.offer(new Pair(b.key,b.value-1));
+            }
+        }
+
+        if(q.size()>0){
+            list.add(q.poll().key);
+        }
+
+        int[] ans = new int[n];
+        for(int i=0;i<n;i++){
+            ans[i] = list.get(i);
+        }
+        return ans;
+    }
+}
